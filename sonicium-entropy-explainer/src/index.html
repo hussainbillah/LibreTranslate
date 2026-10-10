@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>Sonicium Entropy — ডেটা সেন্টার এক্সপ্লেইনার</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage">
+  <div class="bg"><div class="grid"></div><canvas id="particles"></canvas></div>
+
+  <header class="chrome">
+    <div class="wordmark"><span class="dot"></span>Sonicium <b>Entropy</b></div>
+    <div class="basis" id="basis"></div>
+  </header>
+
+  <!-- 1 · challenge -->
+  <section class="scene" id="s-challenge">
+    <h1 class="title" data-in="0.1">ডেটা সেন্টারের নিরাপত্তা: <span class="hl">বহুস্তরের দায়িত্ব</span></h1>
+    <div class="body two">
+      <div class="racks" data-in="0.3">
+        <div class="rack"></div><div class="rack"></div><div class="rack"></div><div class="rack"></div>
+      </div>
+      <div class="net" data-in="0.6">
+        <svg viewBox="0 0 600 420" id="netsvg"></svg>
+      </div>
+    </div>
+    <div class="chips four">
+      <div class="chip" data-in="5.0"><i data-icon="lock"></i>ক্রিপ্টোগ্রাফি</div>
+      <div class="chip" data-in="5.6"><i data-icon="id"></i>অ্যাক্সেস কন্ট্রোল</div>
+      <div class="chip" data-in="6.2"><i data-icon="key"></i>কী ম্যানেজমেন্ট</div>
+      <div class="chip" data-in="6.8"><i data-icon="code"></i>নিরাপদ বাস্তবায়ন</div>
+    </div>
+  </section>
+
+  <!-- 2 · why randomness -->
+  <section class="scene" id="s-why">
+    <h1 class="title" data-in="0.1">কেন <span class="hl">র‍্যান্ডমনেস</span> গুরুত্বপূর্ণ</h1>
+    <div class="chips four tight">
+      <div class="chip" data-in="0.5">ক্রিপ্টোগ্রাফিক কী</div>
+      <div class="chip" data-in="0.9">সেশন টোকেন</div>
+      <div class="chip" data-in="1.3">ননস</div>
+      <div class="chip" data-in="1.7">চ্যালেঞ্জ</div>
+    </div>
+    <div class="body two compare">
+      <div class="panel weak" data-in="2.4">
+        <div class="ptitle">অনুমানযোগ্য উৎস</div>
+        <div class="hexgrid" id="weakgrid"></div>
+        <div class="pnote warn" data-in="6.0">⚠ প্যাটার্ন জানা থাকলে পরবর্তী মান অনুমান করা যায়</div>
+      </div>
+      <div class="panel strong" data-in="3.2">
+        <div class="ptitle">অনুমান-অযোগ্য উৎস</div>
+        <div class="hexgrid" id="stronggrid"></div>
+        <div class="pnote ok" data-in="6.6">✓ পূর্ববর্তী মান থেকে পরবর্তী মান অনুমেয় নয়</div>
+      </div>
+    </div>
+    <div class="footnote" data-in="3.4">ধারণাগত দৃশ্যায়ন — এখানে দেখানো হেক্স মানগুলো প্রদর্শনের জন্য তৈরি।</div>
+  </section>
+
+  <!-- 3 · intro -->
+  <section class="scene" id="s-intro">
+    <h1 class="title" data-in="0.1">পরিচিতি: <span class="hl">Sonicium Entropy</span></h1>
+    <p class="lead" data-in="0.5">প্রমাণীকৃত API-এর মাধ্যমে সফটওয়্যারে কোয়ান্টাম-সিডেড র‍্যান্ডম ডেটা</p>
+    <div class="pipeline">
+      <div class="node q" data-in="1.2">
+        <div class="ntitle">কোয়ান্টাম রেজিস্টার</div>
+        <div class="regs"><span>Q63 · ৬৩ কিউবিট</span><span>Q135 · ১৩৫ কিউবিট</span></div>
+        <div class="nsub">সুপারকন্ডাক্টিং কিউবিট</div>
+      </div>
+      <div class="arrow" data-in="1.8"></div>
+      <div class="node" data-in="2.0">
+        <div class="ntitle">হেলথ টেস্ট ও এক্সট্র‍্যাকশন</div>
+        <div class="nsub mono">SP 800-90B<br>RCT · APT</div>
+      </div>
+      <div class="arrow" data-in="2.6"></div>
+      <div class="node" data-in="2.8">
+        <div class="ntitle">এনট্রপি পুল</div>
+        <div class="nsub">রেজিস্টার-ভিত্তিক আলাদা পুল</div>
+      </div>
+      <div class="arrow" data-in="3.4"></div>
+      <div class="node" data-in="3.6">
+        <div class="ntitle">DRBG</div>
+        <div class="nsub mono">SP 800-90A<br>CTR-DRBG-AES-256</div>
+      </div>
+      <div class="arrow" data-in="4.2"></div>
+      <div class="node api" data-in="4.4">
+        <div class="ntitle">প্রমাণীকৃত API</div>
+        <div class="nsub mono">GET /v1/random</div>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact" data-in="5.6"><b>রেজিস্টার</b> প্রতিটি API কী-তে নির্দিষ্ট: Q63 অথবা Q135</div>
+      <div class="fact" data-in="6.4"><b>উৎস-তথ্য</b> প্রতিটি রেসপন্সে: register, drbgAlgorithm, healthCheck</div>
+      <div class="fact" data-in="7.2"><b>দুর্বল বিকল্প নয়</b> পুল খালি হলে 503 ত্রুটি — অ-কোয়ান্টাম উৎস ব্যবহার হয় না</div>
+    </div>
+  </section>
+
+  <!-- 4 · live API -->
+  <section class="scene" id="s-api">
+    <h1 class="title" data-in="0.1">লাইভ <span class="hl">API ইন্টিগ্রেশন</span></h1>
+    <div class="body apiwrap">
+      <div class="leftcol">
+        <ol class="steps">
+          <li data-step="0" data-in="0.3"><span class="n">১</span><div><b>অনুরোধ</b><small>অনুমোদিত অ্যাপ → HTTPS → /v1/random</small></div></li>
+          <li data-step="1" data-in="0.5"><span class="n">২</span><div><b>প্রমাণীকরণ</b><small>Authorization: Bearer &lt;API কী&gt;</small></div></li>
+          <li data-step="2" data-in="0.7"><span class="n">৩</span><div><b>রেসপন্স</b><small>hex / base64 ডেটা + উৎস-তথ্য</small></div></li>
+          <li data-step="3" data-in="0.9"><span class="n">৪</span><div><b>যাচাই ও ব্যবহার</b><small>দৈর্ঘ্য, ফরম্যাট, হেলথ-চেক</small></div></li>
+        </ol>
+        <div class="card code validate" data-in="14.0">
+          <div class="chead"><span>validate.py</span><em>ধাপ ৪</em></div>
+          <pre id="validate"></pre>
+        </div>
+      </div>
+      <div class="rightcol">
+        <div class="card code">
+          <div class="chead"><span>অনুরোধ · shell</span><em class="auth" id="authbadge">✓ কী যাচাই সম্পন্ন · অবৈধ কী হলে 401</em></div>
+          <pre id="req"></pre>
+        </div>
+        <div class="card code resp" data-in="9.4">
+          <div class="chead"><span id="status200">HTTP 200 · application/json</span><em>নমুনা রেসপন্স — মানগুলো উদাহরণমাত্র</em></div>
+          <pre id="resp"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · use cases -->
+  <section class="scene" id="s-usecases">
+    <h1 class="title" data-in="0.1">ডেটা সেন্টারে <span class="hl">সম্ভাব্য ব্যবহার</span></h1>
+    <div class="cards five">
+      <div class="ucard" data-in="0.6"><i data-icon="key"></i><b>ক্রিপ্টোগ্রাফিক কী জেনারেশন</b><small>প্রতিষ্ঠানের KMS/HSM আর্কিটেকচারের সঙ্গে সামঞ্জস্যপূর্ণ হলে</small></div>
+      <div class="ucard" data-in="1.2"><i data-icon="token"></i><b>সেশন টোকেন ও ননস</b><small>অনুমান-অযোগ্য শনাক্তকারী ও একবার-ব্যবহার্য মান</small></div>
+      <div class="ucard" data-in="1.8"><i data-icon="cycle"></i><b>চ্যালেঞ্জ-রেসপন্স</b><small>ডিভাইস ও সার্ভিস প্রমাণীকরণের চ্যালেঞ্জ</small></div>
+      <div class="ucard" data-in="2.4"><i data-icon="flask"></i><b>সিকিউরিটি টেস্টিং ও সিমুলেশন</b><small>নিয়ন্ত্রিত পরিবেশে র‍্যান্ডমাইজড পরীক্ষা</small></div>
+      <div class="ucard" data-in="3.0"><i data-icon="cloud"></i><b>ক্লাউড ও এন্টারপ্রাইজ অ্যাপ</b><small>র‍্যান্ডম মান প্রয়োজন এমন অ্যাপ্লিকেশন</small></div>
+    </div>
+    <div class="scope" data-in="5.4">
+      <b>পরিধি:</b> Sonicium Entropy র‍্যান্ডম ডেটা সরবরাহ করে। এটি পুরো ডেটা সেন্টার এনক্রিপ্ট করে না, সব কী ম্যানেজ করে না, এবং ফায়ারওয়াল, HSM, KMS, অ্যাক্সেস কন্ট্রোল বা সিকিউরিটি মনিটরিংয়ের বিকল্প নয়।
+    </div>
+  </section>
+
+  <!-- 6 · layered security -->
+  <section class="scene" id="s-layers">
+    <h1 class="title" data-in="0.1">স্তরভিত্তিক নিরাপত্তায় <span class="hl">Sonicium Entropy</span></h1>
+    <div class="body two layerswrap">
+      <div class="stack">
+        <div class="layer" data-in="2.0">নেটওয়ার্ক সুরক্ষা ও ফায়ারওয়াল</div>
+        <div class="layer" data-in="1.6">পরিচয় ও অ্যাক্সেস কন্ট্রোল</div>
+        <div class="layer" data-in="1.2">KMS / HSM — কী সুরক্ষা</div>
+        <div class="layer" data-in="0.8">ক্রিপ্টোগ্রাফিক বাস্তবায়ন</div>
+        <div class="layer rng" data-in="0.4">র‍্যান্ডমনেস উৎস — Sonicium Entropy</div>
+        <div class="layer" data-in="2.4">মনিটরিং ও অপারেশনাল সিকিউরিটি</div>
+      </div>
+      <div class="deps">
+        <div class="dtitle" data-in="4.2">সামগ্রিক ঝুঁকি কমানো নির্ভর করে:</div>
+        <ul>
+          <li data-in="4.6">সঠিক ইন্টিগ্রেশন</li>
+          <li data-in="5.0">এনট্রপি ও রেসপন্স যাচাই</li>
+          <li data-in="5.4">ক্রিপ্টোগ্রাফিক বাস্তবায়ন</li>
+          <li data-in="5.8">কী সুরক্ষা ও অ্যাক্সেস কন্ট্রোল</li>
+          <li data-in="6.2">অপারেশনাল নিরাপত্তা</li>
+        </ul>
+        <div class="caveat" data-in="6.8">কোনো একক উপাদান সম্পূর্ণ নিরাপত্তার নিশ্চয়তা দেয় না।</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · enterprise workflow -->
+  <section class="scene" id="s-workflow">
+    <h1 class="title" data-in="0.1">এন্টারপ্রাইজ <span class="hl">ইন্টিগ্রেশন ওয়ার্কফ্লো</span></h1>
+    <div class="flow" id="flow">
+      <div class="fnode" data-in="0.4">ডেটা-সেন্টার<br>অ্যাপ্লিকেশন</div>
+      <div class="farrow" data-in="0.8"></div>
+      <div class="fnode" data-in="1.0">সিকিউর<br>API ক্লায়েন্ট</div>
+      <div class="farrow" data-in="1.4"></div>
+      <div class="fnode brand" data-in="1.6">প্রমাণীকৃত<br>Sonicium Entropy API</div>
+      <div class="farrow" data-in="2.0"></div>
+      <div class="fnode" data-in="2.2">র‍্যান্ডম-ডেটা<br>রেসপন্স</div>
+      <div class="farrow" data-in="2.6"></div>
+      <div class="fnode" data-in="2.8">অ্যাপ্লিকেশন-নির্দিষ্ট<br>ক্রিপ্টো ওয়ার্কফ্লো</div>
+      <div class="packet" id="packet"></div>
+    </div>
+    <div class="guards">
+      <div class="guard" data-in="3.4"><b>HTTPS / TLS</b><small>এনক্রিপ্টেড ট্রান্সপোর্ট</small></div>
+      <div class="guard" data-in="3.8"><b>API কী সুরক্ষা</b><small>এনভায়রনমেন্ট বা সিক্রেট ম্যানেজার</small></div>
+      <div class="guard" data-in="4.2"><b>ন্যূনতম-অধিকার</b><small>শুধু প্রয়োজনীয় সার্ভিসের জন্য কী</small></div>
+      <div class="guard" data-in="4.6"><b>টাইমআউট</b><small>প্রতি চেষ্টায় নির্দিষ্ট সীমা</small></div>
+      <div class="guard" data-in="5.0"><b>রেট-লিমিট</b><small class="mono">429 + Retry-After মানা</small></div>
+      <div class="guard" data-in="5.4"><b>নিরাপদ রিট্রাই</b><small class="mono">GET বা Idempotency-Key</small></div>
+      <div class="guard" data-in="5.8"><b>রেসপন্স যাচাই</b><small>দৈর্ঘ্য, ফরম্যাট, হেলথ-চেক</small></div>
+      <div class="guard" data-in="6.2"><b>মনিটরিং ও অডিট লগ</b><small>কী বা র‍্যান্ডম ডেটা লগ নয়</small></div>
+    </div>
+    <div class="card code auditlog" data-in="6.8">
+      <div class="chead"><span>অডিট লগ · উদাহরণ</span><em>API কী মাস্কড · র‍্যান্ডম ডেটা লগ করা হয় না</em></div>
+      <pre>2026-10-10T09:30:00Z  GET /v1/random  200  length=32  register=Q135  key=sk_••••••  latency_ms=…</pre>
+    </div>
+  </section>
+
+  <!-- 8 · closing -->
+  <section class="scene" id="s-closing">
+    <div class="closing">
+      <div class="orb" data-in="0.1"></div>
+      <div class="bigmark" data-in="0.4">Sonicium <b>Entropy</b></div>
+      <div class="tag" data-in="1.0">কোয়ান্টাম-সিডেড র‍্যান্ডম ডেটা API · প্রতিটি রেসপন্সে উৎস-তথ্য</div>
+      <div class="cta" data-in="1.8">ডেটা সেন্টার ও ক্লাউড অবকাঠামো প্রদানকারীদের<br>ইন্টিগ্রেশন ও পাইলট আলোচনায় আমন্ত্রণ</div>
+      <div class="url" data-in="2.6">soniciumentropy.com</div>
+      <div class="company" data-in="3.2">Sonicium Quantum Lab Ltd.</div>
+    </div>
+  </section>
+
+  <div class="subs" id="subs"><span id="subtext"></span></div>
+  <div class="progress"><div id="bar"></div></div>
+</div>
+<script src="script.js"></script>
+<script src="animate.js"></script>
+</body>
+</html>
