@@ -3,7 +3,7 @@ transition swells at each scene boundary. Everything is generated here, so the
 audio has no third-party licensing.
 
     python3 tools/make_audio.py            # -> output/soundtrack.wav
-    python3 tools/make_audio.py --voice vo.wav   # also mixes a narration track (ducked music)
+    python3 tools/make_audio.py --voice output/voiceover.mp3   # mixes the narration, music ducked
 """
 import argparse
 import os
@@ -110,6 +110,12 @@ def swells(duration, starts, n):
 
 
 def read_wav(path):
+    if not path.lower().endswith(".wav"):
+        # Decode mp3/m4a/etc. with ffmpeg to mono 48 kHz PCM.
+        import subprocess
+        pcm = subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-ac", "1", "-ar", str(SR), "-f", "s16le", "-"],
+                             check=True, capture_output=True).stdout
+        return np.frombuffer(pcm, dtype=np.int16) / 32768.0
     with wave.open(path) as w:
         sr, ch, sw = w.getframerate(), w.getnchannels(), w.getsampwidth()
         data = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16 if sw == 2 else np.int32)
@@ -122,7 +128,7 @@ def read_wav(path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--voice", help="optional narration WAV, aligned to t=0")
+    ap.add_argument("--voice", help="optional narration (wav/mp3), aligned to t=0")
     ap.add_argument("--out", default=os.path.join(ROOT, "output", "soundtrack.wav"))
     args = ap.parse_args()
     duration, starts = scene_starts()

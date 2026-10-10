@@ -1,6 +1,6 @@
 # Sonicium Entropy: Bengali data-center explainer
 
-An 88-second Bengali explainer video for **Sonicium Entropy** (Sonicium Quantum Lab Ltd.). It shows how the quantum-seeded randomness API fits into data-center security workflows. The video is generated from code: HTML/CSS scenes are rendered frame by frame in headless Chromium and encoded with ffmpeg.
+A 128-second Bengali explainer video, timed to the ElevenLabs voice-over in `output/voiceover.mp3`, for **Sonicium Entropy** (Sonicium Quantum Lab Ltd.). It shows how the quantum-seeded randomness API fits into data-center security workflows. The video is generated from code: HTML/CSS scenes are rendered frame by frame in headless Chromium and encoded with ffmpeg.
 
 | Deliverable | Path |
 |---|---|
@@ -37,14 +37,18 @@ To edit text or timing, change `src/script.js` and re-run the steps above. The b
 
 ## Narration (voice-over)
 
-The rendered masters carry music, SFX and burned-in Bengali subtitles. **They have no spoken narration.** This build environment could reach only package registries, and no cloud or offline Bengali TTS voice of professional quality was available. A robotic voice would have undercut the enterprise tone.
+The masters carry the ElevenLabs Bengali voice-over (`output/voiceover.mp3`, 125.8 s), with the music ducked underneath it, plus burned-in subtitles.
 
-The narration script is the subtitle text (`storyboard.md` or the `.srt`), and it is already timed. To add a voice-over:
+How the timing works:
 
-1. Record or synthesize a Bengali narration (for example, a professional voice artist or Azure `bn-BD-NabanitaNeural` / `bn-BD-PradeepNeural`). Align it to the `.srt` timings, starting at t = 0.
-2. `python3 tools/make_audio.py --voice narration.wav`: this mixes the voice in and ducks the music underneath it.
-3. Re-run both `render.mjs` commands, or remux an existing render without re-rendering:
-   `ffmpeg -i output/sonicium-entropy-bn-16x9.mp4 -i output/soundtrack.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest out.mp4`
+- `src/script.js` holds the voice timing: scene `start`/`end` and cue `start`/`end`. These were measured from the pauses in the voice-over: 17 spoken sentences, each separated by a pause of about 0.4–0.5 s.
+- Each scene also keeps `design` times, and each cue keeps a fourth value: the times the animations were authored against. `animate.js` time-warps between the two, so every animated beat (for example, the API steps ১–৪) lands on its spoken line.
+
+To use a different voice-over:
+
+1. Measure the sentence starts, for example with `ffmpeg -i vo.mp3 -af silencedetect=noise=-35dB:d=0.35 -f null -`.
+2. Update the cue start/end times and the scene bounds in `src/script.js`. Leave the `design` values alone.
+3. Run `python3 tools/make_audio.py --voice vo.mp3`, then `node tools/make_srt.mjs`, then both `render.mjs` commands.
 
 ## API demo and the placeholder key
 

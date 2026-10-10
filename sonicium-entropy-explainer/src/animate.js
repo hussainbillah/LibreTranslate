@@ -145,7 +145,20 @@
   const sceneEls = S.scenes.map((sc) => {
     const el = document.getElementById("s-" + sc.id);
     const items = [...el.querySelectorAll("[data-in]")].map((e) => ({ e, at: parseFloat(e.dataset.in) }));
-    return { sc, el, items };
+    // Time warp: piecewise-linear map from voice-over time to the time the
+    // scene's animations were authored against, pinned at the scene edges and
+    // at every cue start, so each animated beat stays on its spoken line.
+    const [d0, d1] = sc.design ?? [sc.start, sc.end];
+    const knots = [[sc.start, d0], ...sc.cues.filter((c) => c[3] !== undefined).map((c) => [c[0], c[3]]), [sc.end, d1]];
+    const warp = (t) => {
+      if (t <= knots[0][0]) return d0 + (t - knots[0][0]);
+      for (let i = 1; i < knots.length; i++) {
+        const [a, da] = knots[i - 1], [b, db] = knots[i];
+        if (t <= b) return da + ((t - a) / Math.max(1e-6, b - a)) * (db - da);
+      }
+      return d1 + (t - sc.end);
+    };
+    return { sc, el, items, warp, d0 };
   });
   const basisEl = document.getElementById("basis");
   const BASIS = { verified: "✓ যাচাইকৃত: Sonicium Entropy API ডকুমেন্টেশন", illustrative: "ধারণাগত চিত্র", brand: "" };
@@ -158,10 +171,11 @@
     bar.style.width = `${(100 * clamp(t / S.duration)).toFixed(3)}%`;
 
     let active = null;
-    for (const { sc, el, items } of sceneEls) {
-      const local = t - sc.start;
+    for (const { sc, el, items, warp, d0 } of sceneEls) {
+      const real = t - sc.start;
+      const local = warp(t) - d0;
       const last = sc === S.scenes[S.scenes.length - 1];
-      const fin = easeOut(local / 0.6);
+      const fin = easeOut(real / 0.6);
       const fout = last ? 1 : 1 - easeInOut((t - (sc.end - 0.5)) / 0.5);
       const a = t >= sc.start && t < sc.end + (last ? 1 : 0) ? Math.min(fin, fout) : 0;
       el.style.opacity = a.toFixed(3);
