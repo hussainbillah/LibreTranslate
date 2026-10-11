@@ -1,26 +1,26 @@
-# Sonicium Quantum Lab and Sonicium Entropy: 5-minute Bengali government briefing
+# Sonicium Quantum Lab and Sonicium Entropy: Bengali government briefing
 
-An institutional video, exactly 5:00 long, for the Government of Bangladesh (Ministry of Posts, Telecommunications and IT, and the relevant ICT, cybersecurity and research authorities). It introduces Sonicium Quantum Lab and Sonicium Entropy, explains how the technology works, and puts forward a phased pilot proposal. It is rendered from code: HTML/CSS/SVG scenes are captured frame by frame in headless Chromium, then encoded with ffmpeg.
+An institutional video, 6:54 long and timed to its ElevenLabs Bengali voice-over, for the Government of Bangladesh (Ministry of Posts, Telecommunications and IT, and the relevant ICT, cybersecurity and research authorities). It introduces Sonicium Quantum Lab and Sonicium Entropy, explains how the technology works, and puts forward a phased pilot proposal. It is rendered from code: HTML/CSS/SVG scenes are captured frame by frame in headless Chromium, then encoded with ffmpeg.
 
 | Deliverable | Path |
 |---|---|
-| Final video (1920×1080, 30 fps, H.264 + AAC, 300 s) | `output/sonicium-bangladesh-briefing-bn.mp4` |
+| Final video (1920×1080, 30 fps, H.264 + AAC, 414.4 s, with voice-over) | `output/sonicium-bangladesh-briefing-bn.mp4` |
 | Bengali subtitles | `output/sonicium-bangladesh-briefing-bn.srt` |
-| Narration script (one sentence per line, scenes separated by blank lines) | `narration-bn.txt` |
+| Voice-over and its script | `output/voiceover.mp3`, `voiceover-script-bn.txt` |
 | Storyboard, timing and verification log | `storyboard.md` |
 | Scenes (editable) | `src/index.html`, `src/style.css`, `src/animate.js` |
-| Narration text and scene bounds | `src/script.js` |
-| Cue timing (generated) | `src/timing.js` |
+| Narration sentences grouped into scenes | `src/script.js` |
+| Length, scene bounds, cue times and subtitle chunks (generated) | `src/timing.js` |
 | Assets | `src/assets/sql-logo.png` (official SQL logo, cropped from soniciumquantumlab.com `public/og-image.png`), `src/assets/map.js` (Natural Earth, public domain), `src/fonts/` (Noto Sans Bengali, Inter, JetBrains Mono; SIL OFL) |
 
 ## Build
 
 ```bash
-node tools/timing.mjs                 # cue times (estimated, or --voice output/voiceover.mp3)
+node tools/timing.mjs --voice output/voiceover.mp3   # timing measured from the voice-over
 node tools/make_srt.mjs               # .srt from the same timings
 node tools/check.mjs                  # credential, claims, spelling and cue checks
-python3 tools/make_audio.py           # music only; add --voice output/voiceover.mp3 to mix narration
-node tools/render.mjs                 # full render, ~14 min
+python3 tools/make_audio.py --voice output/voiceover.mp3   # voice + music ducked underneath
+node tools/render.mjs                 # full render, ~20 min
 node tools/render.mjs --stills 30,90,140   # review PNGs in output/stills/
 ```
 
@@ -28,21 +28,15 @@ Dependencies: Node 20+ with Playwright and Chromium (`CHROMIUM_PATH` overrides t
 
 To preview in a browser, open `src/index.html?play`, or `?t=95` to view a single frame.
 
-## Voice-over
+## Voice-over and timing
 
-**This render has no spoken narration.** It carries music and burned-in Bengali subtitles only. This build environment can reach only package registries, so no professional Bengali TTS voice was available. The timing system is built so a recorded voice drops straight in:
+The narration is the ElevenLabs recording `output/voiceover.mp3` (409.9 s) of `voiceover-script-bn.txt`. The video length and every scene bound come from the recording. Nothing is fixed in seconds:
 
-1. Generate the narration from `narration-bn.txt`, for example with ElevenLabs, as you did for the earlier explainer, or with a voice artist. Use a composed, authoritative voice. The text is sized for a 5-minute runtime at the pace of your previous ElevenLabs track. If a scene runs long, a speed of about 1.05 helps.
-2. Save it as `output/voiceover.mp3`, starting at 0:00. Leave a natural pause of about 0.4 s between sentences; the aligner uses these pauses.
-3. Run:
-   ```bash
-   node tools/timing.mjs --voice output/voiceover.mp3   # warns if a line spills out of its scene
-   node tools/make_srt.mjs
-   python3 tools/make_audio.py --voice output/voiceover.mp3   # music ducked under the voice
-   node tools/render.mjs
-   ```
+- `src/script.js` holds the script's 56 sentences, one cue each, grouped into nine scenes.
+- `tools/timing.mjs --voice` finds the speech blocks with ffmpeg silencedetect and aligns them to the sentences in order, using length and pause depth. It writes the cue times, the scene bounds (each scene starts just before its first sentence), the total length (the voice plus a 4.5 s musical tail), and subtitle chunks. Long sentences are split near the middle, preferring a comma or a dash.
+- Every reveal and highlight is anchored to a cue (for example `data-in="c2+0.5"`), so the visuals follow the voice.
 
-Scene bounds stay fixed at the storyboard times. Every reveal and highlight is anchored to a narration cue (for example `data-in="c2+0.5"`), not to a fixed second, so the visuals follow the recorded voice automatically.
+To change the narration, edit `voiceover-script-bn.txt` and the matching sentences in `src/script.js`, record the new voice-over as `output/voiceover.mp3`, and re-run the build steps above. `timing.mjs` reports any sentence whose measured length looks wrong for its text.
 
 ## Integrity rules this video follows
 

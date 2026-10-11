@@ -22,7 +22,13 @@
 
   // ---- cue table: attach measured/estimated times to each scene's cues
   let ci = 0;
-  for (const sc of S.scenes) sc.times = sc.cues.map(() => T.cues[ci++]);
+  if (T.duration) S.duration = T.duration;
+  S.scenes.forEach((sc, i) => {
+    if (T.scenes) [sc.start, sc.end] = T.scenes[i];
+    sc.first = ci;
+    sc.times = sc.cues.map(() => T.cues[ci++]);
+  });
+  const hiddenCue = new Set(S.scenes.flatMap((sc) => (sc.onscreen ?? []).map((k) => sc.first + k)));
   if (ci !== T.cues.length) console.error("timing.js does not match script.js — run tools/timing.mjs");
   const at = (spec, sc) => {
     if (spec === undefined) return null;
@@ -51,6 +57,8 @@
     globe: '<circle cx="24" cy="24" r="17"/><path d="M7 24h34M24 7c-6 6-6 28 0 34M24 7c6 6 6 28 0 34"/>',
     hand: '<path d="M6 24l8-8 8 4 6-4 14 10-8 8-6-5M14 16l-8 8 10 10 6-4"/>',
     chart: '<path d="M8 40V8M8 40h32"/><path d="m14 32 8-9 6 5 10-13"/>',
+    key: '<circle cx="15" cy="24" r="8"/><path d="M23 24h20M37 24v7M43 24v5"/>',
+    token: '<rect x="5" y="12" width="38" height="24" rx="4"/><path d="M12 20h12M12 27h20"/><circle cx="35" cy="21" r="3"/>',
   };
   document.querySelectorAll("[data-icon]").forEach((el) => {
     el.innerHTML = `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${ICONS[el.dataset.icon] ?? ""}</svg>`;
@@ -86,10 +94,10 @@
     }
   }
   const cs = document.getElementById("collabsvg");
-  const collabNodes = [[320, 165, "Sonicium Quantum Lab", true], [110, 60, "বিশ্ববিদ্যালয়"], [530, 60, "শিল্প"], [320, 290, "সরকার"]];
-  const collabLines = collabNodes.slice(1).map(([x, y]) => svgEl("line", { x1: 320, y1: 165, x2: x, y2: y, stroke: "#06b6d4", "stroke-width": 3, "stroke-dasharray": "8 8" }, cs));
+  const collabNodes = [[320, 150, "Sonicium Quantum Lab", true], [125, 45, "বিশ্ববিদ্যালয়"], [515, 45, "গবেষণা প্রতিষ্ঠান"], [125, 255, "শিল্প খাত"], [515, 255, "সরকারি সংস্থা"]];
+  const collabLines = collabNodes.slice(1).map(([x, y]) => svgEl("line", { x1: 320, y1: 150, x2: x, y2: y, stroke: "#06b6d4", "stroke-width": 3, "stroke-dasharray": "8 8" }, cs));
   for (const [x, y, label, center] of collabNodes) {
-    const w = center ? 330 : 190;
+    const w = center ? 330 : 230;
     svgEl("rect", { x: x - w / 2, y: y - 30, width: w, height: 60, rx: 30, fill: center ? "#0f2a5f" : "#fff", stroke: center ? "#0f2a5f" : "#9fb4d8", "stroke-width": 2 }, cs);
     const tx = svgEl("text", { x, y: y + 9, "text-anchor": "middle", "font-size": center ? 24 : 25, "font-weight": 600, fill: center ? "#fff" : "#0f2a5f", "font-family": "Inter, Noto Sans Bengali" }, cs);
     tx.textContent = label;
@@ -131,13 +139,13 @@
 
   // ---- scene 7: stakeholders
   const st = document.getElementById("stakesvg");
-  const stakeNodes = [[380, 150, "কারিগরি পাইলট", true], [150, 55, "সরকারি প্রযুক্তি সংস্থা"], [610, 55, "বিশ্ববিদ্যালয় ও গবেষণা"], [150, 250, "শিল্প ও ডেটা সেন্টার"], [610, 250, "Sonicium Quantum Lab"]];
+  const stakeNodes = [[380, 150, "কারিগরি পাইলট", true], [170, 55, "সংশ্লিষ্ট মন্ত্রণালয় ও প্রযুক্তি কর্তৃপক্ষ"], [590, 55, "গবেষণা প্রতিষ্ঠান ও বিশ্ববিদ্যালয়"], [170, 250, "শিল্প খাত"], [590, 250, "Sonicium Quantum Lab"]];
   const stakeLines = stakeNodes.slice(1).map(([x, y]) => svgEl("line", { x1: 380, y1: 150, x2: x, y2: y, stroke: "#9fb4d8", "stroke-width": 3 }, st));
   const stakeDots = stakeNodes.slice(1).map(() => svgEl("circle", { r: 7, fill: "#06b6d4" }, st));
   for (const [x, y, label, center] of stakeNodes) {
-    const w = center ? 250 : 290;
+    const w = center ? 250 : 330;
     svgEl("rect", { x: x - w / 2, y: y - 30, width: w, height: 60, rx: 30, fill: center ? "#006a4e" : "#fff", stroke: center ? "#006a4e" : "#9fb4d8", "stroke-width": 2 }, st);
-    const tx = svgEl("text", { x, y: y + 9, "text-anchor": "middle", "font-size": 24, "font-weight": 600, fill: center ? "#fff" : "#0f2a5f", "font-family": "Inter, Noto Sans Bengali" }, st);
+    const tx = svgEl("text", { x, y: y + 9, "text-anchor": "middle", "font-size": center ? 24 : 20, "font-weight": 600, fill: center ? "#fff" : "#0f2a5f", "font-family": "Inter, Noto Sans Bengali" }, st);
     tx.textContent = label;
   }
   const phs = [...document.querySelectorAll(".ph")], rfill = document.getElementById("rfill");
@@ -148,6 +156,13 @@
   svgEl("path", { d: M.bdZoom, fill: "rgba(0,106,78,.12)", stroke: "#006a4e", "stroke-width": 3, "stroke-linejoin": "round" }, bz);
   svgEl("circle", { cx: M.dhakaZoom[0], cy: M.dhakaZoom[1], r: 11, fill: "#f42a41" }, bz);
   const bzl = svgEl("text", { x: M.dhakaZoom[0] + 20, y: M.dhakaZoom[1] + 9, "font-size": 30, "font-weight": 700, fill: "#0f2a5f", "font-family": "Noto Sans Bengali" }, bz); bzl.textContent = "ঢাকা";
+
+  // ---- scene 3 (why): unpredictable vs predictable hex grids
+  const weakPattern = ["a3", "5f", "1c", "07"], CELLS = 32;
+  const weakGrid = document.getElementById("weakgrid"), strongGrid = document.getElementById("stronggrid");
+  weakGrid.innerHTML = strongGrid.innerHTML = "<span></span>".repeat(CELLS);
+  const weakCells = [...weakGrid.children], strongCells = [...strongGrid.children];
+  const hex2 = (v) => Math.floor(v * 256).toString(16).padStart(2, "0");
 
   // ---- particles
   const canvas = document.getElementById("particles"); canvas.width = W; canvas.height = H;
@@ -199,7 +214,7 @@
     basisEl.className = "basis " + basis;
     basisEl.style.opacity = BASIS[basis] ? "1" : "0";
     let cue = null;
-    S.scenes.forEach((sc) => sc.times.forEach(([a, b], k) => { if (t >= a && t < b) cue = { text: sc.cues[k], a, b, onscreen: sc.id === "closing" && k === 0 }; }));
+    for (const [a, b, text, ci2] of T.subs) if (t >= a && t < b) cue = { text, a, b, onscreen: hiddenCue.has(ci2) };
     if (cue && !cue.onscreen) {
       if (subEl.textContent !== cue.text) subEl.textContent = cue.text;
       subBox.style.opacity = Math.min(clamp((t - cue.a) / 0.25), clamp((cue.b - t) / 0.2)).toFixed(3);
@@ -207,8 +222,8 @@
   }
 
   const FX = {
-    opening(local) {
-      const z = 1 + 0.32 * easeInOut(local / 24);
+    opening(local, sc) {
+      const z = 1 + 0.32 * easeInOut(local / (sc.end - sc.start - 1));
       wg.setAttribute("transform", `translate(${dx},${dy}) scale(${z.toFixed(4)}) translate(${-dx},${-dy})`);
       wm.style.opacity = (0.55 + 0.45 * easeOut(local / 2)).toFixed(3);
       for (const a of arcs) {
@@ -225,26 +240,26 @@
       pulse.setAttribute("r", (8 + pp * 26).toFixed(1)); pulse.setAttribute("opacity", (1 - pp).toFixed(2));
     },
     lab(local, sc) {
-      const p = clamp((local - cueT(sc, 2)) / 1.2);
+      const p = clamp((local - cueT(sc, 3)) / 1.2);
       collabLines.forEach((l, i) => { l.setAttribute("stroke-dashoffset", (-local * 24).toFixed(1)); l.setAttribute("opacity", clamp(p * 3 - i).toFixed(2)); });
-      document.querySelector(".area.rng").classList.toggle("on", local >= cueT(sc, 3));
+      document.querySelector(".area.rng").classList.toggle("on", local >= cueT(sc, 4));
       document.getElementById("circuitbg").style.transform = `translateX(${(-local * 6).toFixed(1)}px)`;
     },
     entropy(local, sc) {
-      const c1 = cueT(sc, 1), c1e = cueEnd(sc, 1);
-      setDie(local < c1 + (c1e - c1) * 0.55 ? "Q63" : "Q135");
+      setDie(local < cueT(sc, 0) + (cueEnd(sc, 0) - cueT(sc, 0)) * 0.5 ? "Q63" : "Q135");
+      const m0 = cueT(sc, 0) + 1.2;
       const tick = Math.floor(local * 6);
       dieDots.forEach((d, i) => { const v = hash(i + 7, tick); d.className = v < 0.42 ? "on" : v > 0.86 ? "one" : ""; });
       // single-qubit circuit: |0> -> H -> measure, repeating every 1.5 s
-      const cyc = ((local - cueT(sc, 2)) % 1.5 + 1.5) % 1.5 / 1.5;
-      const shot = Math.floor((local - cueT(sc, 2)) / 1.5);
+      const cyc = ((local - m0) % 1.5 + 1.5) % 1.5 / 1.5;
+      const shot = Math.floor((local - m0) / 1.5);
       qdot.setAttribute("cx", (80 + 255 * easeInOut(cyc / 0.7)).toFixed(1));
       qdot.setAttribute("opacity", cyc < 0.75 ? "1" : "0");
       const outcome = hash(shot, 99) < 0.5 ? 0 : 1;
       outT.textContent = cyc > 0.72 ? String(outcome) : "";
       needle.setAttribute("x2", cyc > 0.72 ? (outcome ? 352 : 318) : 335);
       // histogram of simulated fair outcomes (illustrative)
-      const n = Math.max(0, Math.floor((local - cueT(sc, 2)) * 40));
+      const n = Math.max(0, Math.floor((local - m0) * 40));
       let ones = 0; for (let i = 0; i < n; i++) if (hash(i, 7) < 0.5) ones++;
       const f1 = n ? ones / n : 0.5;
       b0.style.height = `${(78 * (1 - f1) + 2).toFixed(1)}%`; b1.style.height = `${(78 * f1 + 2).toFixed(1)}%`;
@@ -258,12 +273,15 @@
     },
     workflow(local, sc) {
       const cueOf = (k) => local >= cueT(sc, k) && (k + 1 >= sc.times.length || local < cueT(sc, k + 1));
+      // narration: c1-c2 step 1, c3 step 2, c4-c5 step 3, c6-c7 delivery, c8-c9 summary
       let activeStep = -1;
-      if (cueOf(1)) activeStep = local < cueT(sc, 1) + (cueEnd(sc, 1) - cueT(sc, 1)) / 2 ? 0 : 1;
-      else if (cueOf(2)) activeStep = 2;
-      else if (cueOf(3)) activeStep = 3;
-      else if (cueOf(4)) activeStep = 4 + Math.min(2, Math.floor(((local - cueT(sc, 4)) / (cueEnd(sc, 4) - cueT(sc, 4))) * 3));
-      const doneUpTo = cueOf(5) ? 7 : activeStep;
+      if (cueOf(1)) activeStep = 0;
+      else if (cueOf(2)) activeStep = 1;
+      else if (cueOf(3)) activeStep = local < cueT(sc, 3) + 3.5 ? 2 : 3;
+      else if (cueOf(4)) activeStep = 4;
+      else if (cueOf(5)) activeStep = 5;
+      else if (cueOf(6) || cueOf(7)) activeStep = 6;
+      const doneUpTo = local >= cueT(sc, 8) ? 7 : activeStep;
       wsteps.forEach((li, i) => { li.className = i === activeStep ? "on" : i < doneUpTo ? "done" : ""; });
       anodes.forEach((n, g) => n.classList.toggle("on", activeStep >= 0 && STEP_GROUP[activeStep] === g));
       if (local >= cueT(sc, 0) + 1.2) {
@@ -274,8 +292,22 @@
         apacket.style.transform = `translateX(${(pts[i] + (pts[i + 1] - pts[i]) * easeInOut(cyc - i) - 9).toFixed(1)}px)`;
       } else apacket.style.opacity = "0";
     },
+    why(local, sc) {
+      const sIn = cueT(sc, 1), wIn = cueT(sc, 3);
+      const tick = Math.floor(local * 4);
+      const shownS = Math.floor(clamp((local - sIn - 0.4) / 2.5) * CELLS);
+      strongCells.forEach((c, i) => { c.textContent = i < shownS ? hex2(hash(i * 97 + 7, i < shownS - 6 ? 1 : tick)) : "··"; });
+      const shownW = Math.floor(clamp((local - wIn - 0.4) / 2.5) * CELLS);
+      weakCells.forEach((c, i) => {
+        if (i === CELLS - 1) { const rev = local > wIn + 3.4; c.textContent = rev ? weakPattern[i % 4] : "??"; c.className = rev ? "rep next" : "next"; }
+        else { c.textContent = i < shownW ? weakPattern[i % 4] : "··"; c.className = i < shownW && i >= 4 ? "rep" : ""; }
+      });
+    },
+    strategic(local, sc) {
+      document.querySelector(".vcol.pqc").classList.toggle("on", local >= cueT(sc, 4) && local < cueT(sc, 5));
+    },
     proposal(local, sc) {
-      const on = local >= cueT(sc, 3) ? 3 : local >= cueT(sc, 2) ? 2 : local >= cueT(sc, 1) + 3.5 ? 1 : local >= cueT(sc, 1) ? 0 : -1;
+      const on = local >= cueT(sc, 4) ? 3 : local >= cueT(sc, 3) ? 2 : local >= cueT(sc, 2) ? 1 : local >= cueT(sc, 1) ? 0 : -1;
       phs.forEach((p, i) => p.classList.toggle("on", i <= on));
       rfill.style.width = `${on < 0 ? 0 : ((on + 1) / 4) * 100}%`;
       stakeNodes.slice(1).forEach(([x, y], i) => {

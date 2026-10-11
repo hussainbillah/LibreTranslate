@@ -30,26 +30,33 @@ for (const f of files) {
   if (KEY.test(text)) problems.push(`${rel}: looks like a real API key`);
   if (BEARER.test(text)) problems.push(`${rel}: literal bearer token`);
   for (const c of CLAIMS) if (c.test(text) && !/\.(css|md)$/.test(rel)) problems.push(`${rel}: forbidden claim ${c}`);
-  if (/র্যা/.test(text.replace(/র‍্যা/g, ""))) problems.push(`${rel}: র্যা without ZWJ`);
+  // ZWJ belongs after word-initial র or র-ফলা (র‍্যান্ডম, ট্র‍্যাক), never in the reph form (পর্যায়)
+  if (/(^|[^অ-হা-ৌৗড়-য়])র্যা/m.test(text)) problems.push(`${rel}: word-initial র্যা without ZWJ`);
+  if (/[অ-হা-ৌৗড়-য়]র‍্য/.test(text)) problems.push(`${rel}: ZWJ in reph form (e.g. পর্যায়)`);
 }
 
 const ctx = {};
 vm.runInNewContext(readFileSync(join(ROOT, "src/script.js"), "utf8"), ctx);
 vm.runInNewContext(readFileSync(join(ROOT, "src/timing.js"), "utf8").replace("window.TIMING", "globalThis.TIMING"), ctx);
 let ti = 0;
+ctx.SCRIPT.scenes.forEach((sc, i) => { [sc.start, sc.end] = ctx.TIMING.scenes[i]; });
 let prevEnd = 0;
 for (const s of ctx.SCRIPT.scenes) {
   for (const text of s.cues) {
     const [a, b] = ctx.TIMING.cues[ti++];
     if (a < s.start || b > s.end) problems.push(`cue outside scene ${s.id}: ${text.slice(0, 30)}`);
     if (a < prevEnd) problems.push(`overlapping cue at ${a}`);
-    const cps = [...text].length / (b - a);
-    // Bengali vowel signs and virama are separate code points, so this is
-    // generous compared with Latin characters-per-second guidelines.
-    if (cps > 30) problems.push(`cue too fast (${cps.toFixed(1)} chars/s) at ${a}`);
     prevEnd = b;
   }
 }
 
+let pe = 0;
+for (const [a, b, text] of ctx.TIMING.subs) {
+  if (a < pe - 0.001) problems.push(`overlapping subtitle at ${a}`);
+  // Bengali vowel signs and virama are separate code points, so this is
+  // generous compared with Latin characters-per-second guidelines.
+  if ([...text].length / (b - a) > 30) problems.push(`subtitle too fast at ${a}: ${text.slice(0, 30)}`);
+  pe = b;
+}
 if (problems.length) { console.error(problems.join("\n")); process.exit(1); }
 console.log(`ok — ${files.length} files checked, no key-shaped strings, no absolute claims, cues valid`);

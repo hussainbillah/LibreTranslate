@@ -16,8 +16,7 @@ const ts = (s) => {
   return `${p(Math.floor(ms / 3600000))}:${p(Math.floor(ms / 60000) % 60)}:${p(Math.floor(ms / 1000) % 60)},${p(ms % 1000, 3)}`;
 };
 
-const texts = ctx.SCRIPT.scenes.flatMap((s) => s.cues);
-const cues = ctx.TIMING.cues.map(([a, b], i) => [a, b, texts[i]]);
+const cues = ctx.TIMING.subs.map(([a, b, text]) => [a, b, text]);
 const srt = cues.map(([a, b, text], i) => `${i + 1}\n${ts(a)} --> ${ts(b)}\n${text}\n`).join("\n");
 mkdirSync(join(ROOT, "output"), { recursive: true });
 writeFileSync(join(ROOT, "output/sonicium-bangladesh-briefing-bn.srt"), srt, "utf8");

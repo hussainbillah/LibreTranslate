@@ -247,3 +247,60 @@ pre .s { color: #0f766e; } pre .p { color: #9333ea; } pre .c { color: #64748b; }
 .opp b { font-size: 29px; }
 #s-economic { gap: 22px; }
 #s-economic .opp { min-height: 184px; padding: 20px 24px; }
+
+/* ---- v2: narration-matched scenes ---- */
+.goal { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.goal b { font-size: 24px; color: var(--bd-green); margin-right: 4px; text-shadow: 0 0 12px #fff; }
+.goal span { font-size: 23px; font-weight: 600; color: var(--navy); padding: 9px 16px; border-radius: 12px; background: rgba(255,255,255,.95); border: 1.5px solid rgba(0,106,78,.3); }
+.capab { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: rgba(255,255,255,.9); border: 1.5px solid var(--line); border-radius: 18px; }
+.capab span { font-size: 24px; font-weight: 600; color: var(--navy); padding: 8px 14px; border-radius: 12px; background: #eef4fd; }
+.capab em { font-style: normal; font-size: 26px; color: var(--cyan-d); font-weight: 700; }
+.labright .area { padding: 20px 26px; }
+/* why */
+.chips.tight .chip { font-size: 26px; padding: 12px 22px; }
+.compare { display: flex; gap: 36px; }
+.panel { flex: 1; background: var(--card); border: 1.5px solid var(--line); border-radius: 24px; padding: 24px 30px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 14px 34px rgba(15,42,95,.08); }
+.ptitle { font-size: 30px; font-weight: 700; }
+.panel.weak .ptitle { color: var(--warn); }
+.panel.strong .ptitle { color: var(--blue); }
+.hexgrid { font-family: var(--mono); font-size: 29px; display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px 10px; }
+.hexgrid span { text-align: center; padding: 6px 0; border-radius: 8px; background: #f3f6fc; color: #2b3d63; }
+.panel.weak .hexgrid span.rep { background: rgba(154,52,18,.10); color: var(--warn); }
+.panel.weak .hexgrid span.next { outline: 2.5px dashed var(--warn); }
+.panel.strong .hexgrid span { background: rgba(37,99,235,.07); color: var(--navy); }
+.pnote { font-size: 24px; font-weight: 600; }
+.pnote.warn { color: var(--warn); } .pnote.ok { color: var(--ok); }
+/* workflow */
+.secnote { font-size: 22px; line-height: 1.5; padding: 14px 20px; border-radius: 16px; background: #eef4ff; border: 1.5px solid #c9d8f3; color: var(--navy); }
+.secnote b { color: var(--blue); }
+#s-workflow pre { font-size: 16px; }
+#s-workflow .wright { gap: 12px; }
+#s-workflow .failnote { font-size: 21px; padding: 12px 18px; }
+/* strategic */
+.vcol.pqc.on { border-color: var(--blue); box-shadow: 0 14px 34px rgba(37,99,235,.18); }
+.frame { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 20px 24px; border-radius: 18px; background: linear-gradient(160deg, #fff, #eaf7f2); border: 1.5px solid rgba(0,106,78,.3); }
+.frame b { width: 100%; font-size: 26px; color: var(--bd-green); }
+.frame span { font-size: 24px; font-weight: 600; color: var(--navy); padding: 9px 16px; border-radius: 12px; background: #fff; border: 1.5px solid var(--line); }
+.frame em { font-style: normal; font-size: 26px; font-weight: 700; color: var(--bd-green); }
+/* economic */
+#s-economic .opps { grid-template-columns: repeat(2, 1fr); }
+#s-economic .opp { min-height: 0; flex-direction: row; align-items: center; gap: 18px; padding: 22px 26px; }
+#s-economic .opp b { padding-right: 90px; }
+#s-economic .opp.wide { grid-column: span 2; border-color: rgba(0,106,78,.35); }
+#s-economic .footnote b { color: var(--navy); }
+#s-economic .conds span { font-size: 22px; }
+/* proposal */
+.ph span { font-size: 21px; }
+.ph b { font-size: 27px; }
+/* closing */
+.pillars { position: absolute; left: 96px; right: 760px; top: 190px; display: flex; flex-direction: column; gap: 22px; }
+.prow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.prow span { text-align: center; font-size: 28px; font-weight: 700; color: var(--navy); padding: 26px 14px; border-radius: 20px; background: var(--card); border: 1.5px solid var(--line); box-shadow: 0 12px 28px rgba(15,42,95,.08); border-bottom: 6px solid var(--blue); }
+.prow.b span { border-bottom-color: var(--bd-green); font-size: 25px; }
+.pnote2 { font-size: 26px; font-weight: 600; color: var(--bd-green); text-align: center; }
+.pinit { display: flex; align-items: center; gap: 22px; padding: 18px 24px; border-radius: 20px; background: rgba(255,255,255,.95); border: 1.5px solid var(--line); }
+.pinit img { height: 80px; }
+.pinit span { font-size: 26px; font-weight: 600; color: var(--navy); line-height: 1.45; }
+.tagline { font-size: 30px; font-weight: 600; color: var(--bd-green); }
+.closing { gap: 26px; }
+.introcard.ent { left: 830px; }

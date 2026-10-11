@@ -17,10 +17,11 @@ SR = 48000
 
 
 def scene_starts():
-    src = open(os.path.join(ROOT, "src", "script.js"), encoding="utf-8").read()
-    duration = float(re.search(r"duration:\s*([\d.]+)", src).group(1))
-    starts = [float(x) for x in re.findall(r"start:\s*([\d.]+)", src)]
-    return duration, starts
+    # Scene bounds and length come from src/timing.js (tools/timing.mjs).
+    import json
+    src = open(os.path.join(ROOT, "src", "timing.js"), encoding="utf-8").read()
+    t = json.loads(src[src.index("{"): src.rindex("}") + 1])
+    return t["duration"], [a for a, _ in t["scenes"]]
 
 
 def note(midi):
