@@ -11,7 +11,7 @@ An institutional video, exactly 5:00 long, for the Government of Bangladesh (Min
 | Scenes (editable) | `src/index.html`, `src/style.css`, `src/animate.js` |
 | Narration text and scene bounds | `src/script.js` |
 | Cue timing (generated) | `src/timing.js` |
-| Assets | `src/assets/sq-logo.png` (official logo, cropped from soniciumquantumlab.com), `src/assets/map.js` (Natural Earth, public domain), `src/fonts/` (Noto Sans Bengali, Inter, JetBrains Mono; SIL OFL) |
+| Assets | `src/assets/sql-logo.png` (official SQL logo, cropped from soniciumquantumlab.com `public/og-image.png`), `src/assets/map.js` (Natural Earth, public domain), `src/fonts/` (Noto Sans Bengali, Inter, JetBrains Mono; SIL OFL) |
 
 ## Build
 
