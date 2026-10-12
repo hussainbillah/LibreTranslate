@@ -1,0 +1,36 @@
+{
+  "_label": "ILLUSTRATIVE SCENARIO — NOT A CUSTOMER FORECAST OR GUARANTEED RETURN",
+  "_about": "Sample assumptions from the client brief. They are not Sonicium Entropy's official prices, not a quotation, and not measured customer savings. Edit the inputs and run `node tools/build_data.mjs`; the video's calculator scene and the outputs below are recomputed from them.",
+  "currency": "USD",
+  "inputs": {
+    "monthly_api_requests": 10000000,
+    "monthly_service_fee_usd": 500,
+    "initial_integration_cost_usd": 2000,
+    "monthly_operating_cost_usd": 100,
+    "monthly_measurable_benefit_usd": 1000
+  },
+  "formulas": {
+    "monthly_recurring_cost": "monthly_service_fee_usd + monthly_operating_cost_usd",
+    "first_year_total_cost": "initial_integration_cost_usd + 12 × monthly_recurring_cost",
+    "first_year_requests": "12 × monthly_api_requests",
+    "cost_per_million_requests": "first_year_total_cost ÷ (first_year_requests ÷ 1,000,000)",
+    "annual_measurable_benefit": "12 × monthly_measurable_benefit_usd",
+    "net_first_year_benefit": "annual_measurable_benefit − first_year_total_cost",
+    "first_year_roi_percent": "net_first_year_benefit ÷ first_year_total_cost × 100"
+  },
+  "outputs_expected_for_sample": {
+    "monthly_recurring_cost": 600,
+    "first_year_total_cost": 9200,
+    "first_year_requests": 120000000,
+    "cost_per_million_requests": 76.67,
+    "annual_measurable_benefit": 12000,
+    "net_first_year_benefit": 2800,
+    "first_year_roi_percent": 30.43
+  },
+  "catalog_context": {
+    "_about": "Real list prices from the Sonicium Entropy billing catalog (packages/billing/src/plans.ts), for orientation only.",
+    "business_plan": { "usd_per_month": 199, "monthly_quota_requests": 2000000, "rate_limit_per_minute": 1000 },
+    "enterprise_plan": { "usd_per_month": "custom agreement", "monthly_quota_requests": 25000000, "rate_limit_per_minute": 6000 },
+    "note": "10 million requests a month exceeds the Business plan's 2 million monthly quota, so this workload would fall under an Enterprise agreement; the USD 500 fee above is a sample assumption, not that agreement's price. 10 million a month averages about 3.9 requests a second, well inside the Enterprise limit of 6,000 a minute."
+  }
+}

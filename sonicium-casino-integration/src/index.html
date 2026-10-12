@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sonicium Entropy — Casino Platform Integration</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  // ?lang=en|bn picks the language; timing for that language is loaded synchronously.
+  window.LANG = new URLSearchParams(location.search).get("lang") === "bn" ? "bn" : "en";
+  document.documentElement.lang = window.LANG;
+  document.write('<script src="timing.' + window.LANG + '.js"><\/script>');
+</script>
+</head>
+<body>
+<div id="stage">
+  <div class="bg"><div class="grid"></div><canvas id="particles"></canvas></div>
+  <div class="topline"></div>
+
+  <header class="chrome">
+    <div class="brand"><img src="assets/sql-logo.png" alt="Sonicium Quantum Lab"><span class="sep"></span><span class="ent">Sonicium <b>Entropy</b></span></div>
+    <div class="basis" id="basis"></div>
+  </header>
+
+  <!-- 1 · introduction ----------------------------------------------------- -->
+  <section class="scene" id="s-intro">
+    <div class="introleft">
+      <div class="megatitle" data-in="0.3">SONICIUM <b>ENTROPY</b></div>
+      <div class="subtitle" data-in="0.9" t-en="Quantum Randomness API Integration for Casino Platforms" t-bn="ক্যাসিনো প্ল্যাটফর্মের জন্য কোয়ান্টাম র‍্যান্ডমনেস API সংযুক্তি"></div>
+      <div class="venture" data-in="c2">
+        <img src="assets/sql-logo.png" alt="">
+        <div><b t-en="A technology initiative of Sonicium Quantum Lab Limited" t-bn="Sonicium Quantum Lab Limited-এর প্রযুক্তি উদ্যোগ"></b><small t-en="API-based access to quantum-randomness data" t-bn="API-এর মাধ্যমে কোয়ান্টাম-র‍্যান্ডমনেস ডেটা"></small></div>
+      </div>
+      <div class="agenda" data-in="c3">
+        <span t-en="Evaluate" t-bn="যাচাই"></span><em>→</em><span t-en="Connect" t-bn="সংযোগ"></span><em>→</em><span t-en="Test" t-bn="পরীক্ষা"></span><em>→</em><span class="hot" t-en="Assess value" t-bn="মূল্য নিরূপণ"></span>
+      </div>
+    </div>
+    <div class="infra" data-in="c0+0.4"><svg id="infrasvg" viewBox="0 0 700 720"></svg></div>
+  </section>
+
+  <!-- 2 · understanding Sonicium Entropy ------------------------------------- -->
+  <section class="scene" id="s-understand">
+    <h1 class="title" data-in="0.2" t-en="Understanding <span class='hl'>Sonicium Entropy</span>" t-bn="<span class='hl'>Sonicium Entropy</span> কী?"></h1>
+    <div class="pipe">
+      <div class="pnode" data-in="c0+0.3"><i data-icon="chip"></i><b t-en="Quantum measurement" t-bn="কোয়ান্টাম পরিমাপ"></b><small t-en="Superconducting QPUs · Q63 / Q135 registers" t-bn="সুপারকন্ডাক্টিং QPU · Q63 / Q135 রেজিস্টার"></small></div>
+      <em data-in="c1">→</em>
+      <div class="pnode" data-in="c1+0.3"><i data-icon="check"></i><b t-en="Health-tested" t-bn="স্বাস্থ্য পরীক্ষা"></b><small>NIST SP 800-90B · RCT / APT</small></div>
+      <em data-in="c1+1.5">→</em>
+      <div class="pnode" data-in="c1+1.8"><i data-icon="gauge"></i><b t-en="Seeds a standards-based DRBG" t-bn="মানসম্মত DRBG সিড"></b><small>NIST SP 800-90A · CTR-DRBG-AES-256</small></div>
+      <em data-in="c2">→</em>
+      <div class="pnode api" data-in="c2+0.2"><i data-icon="lock"></i><b t-en="One documented endpoint" t-bn="একটি ডকুমেন্টেড এন্ডপয়েন্ট"></b><small class="mono">GET /v1/random</small></div>
+    </div>
+    <div class="urow">
+      <div class="prov" data-in="c2+1.2">
+        <div class="chead"><span t-en="Every response carries its source" t-bn="প্রতিটি রেসপন্সে উৎস-তথ্য"></span><em t-en="sample values" t-bn="নমুনা মান"></em></div>
+<pre>{ <span class="p">"register"</span>: <span class="s">"Q135"</span>,
+  <span class="p">"drbgAlgorithm"</span>: <span class="s">"CTR-DRBG-AES-256"</span>,
+  <span class="p">"entropySource"</span>: <span class="s">"superconducting_qubit_q135"</span>,
+  <span class="p">"healthCheck"</span>: { <span class="p">"rct"</span>: <span class="s">"passed"</span>, <span class="p">"apt"</span>: <span class="s">"passed"</span> } }</pre>
+      </div>
+      <div class="question" data-in="c3">
+        <b t-en="The question for a casino platform" t-bn="ক্যাসিনো প্ল্যাটফর্মের প্রশ্ন"></b>
+        <span t-en="Where does it fit in our architecture?" t-bn="আমাদের স্থাপত্যে এটি কোথায় খাপ খায়?"></span>
+        <span t-en="What measurable value does it add?" t-bn="এটি কী পরিমাপযোগ্য মূল্য যোগ করে?"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · how a casino platform can use the API ------------------------------ -->
+  <section class="scene" id="s-usage">
+    <h1 class="title" data-in="0.2" t-en="How a casino platform <span class='hl'>can use the API</span>" t-bn="ক্যাসিনো প্ল্যাটফর্ম <span class='hl'>কীভাবে API ব্যবহার করতে পারে</span>"></h1>
+    <div class="arch" id="arch" data-in="c0+0.3">
+      <div class="anode" t-en="Casino application" t-bn="ক্যাসিনো অ্যাপ্লিকেশন"></div><div class="aarrow"></div>
+      <div class="anode" t-en="Approved backend service" t-bn="অনুমোদিত ব্যাকএন্ড সার্ভিস"></div><div class="aarrow"></div>
+      <div class="anode brand" t-en="Sonicium Entropy API" t-bn="Sonicium Entropy API"></div><div class="aarrow"></div>
+      <div class="anode" t-en="Randomness response" t-bn="র‍্যান্ডমনেস রেসপন্স"></div><div class="aarrow"></div>
+      <div class="anode" t-en="Validated application workflow" t-bn="যাচাইকৃত অ্যাপ্লিকেশন ওয়ার্কফ্লো"></div>
+      <div class="apacket" id="apacket"></div>
+    </div>
+    <div class="urow2">
+      <div class="comps" data-in="c1">
+        <div class="comp" t-en="Game engine" t-bn="গেম ইঞ্জিন"></div>
+        <div class="comp" t-en="Account system" t-bn="অ্যাকাউন্ট সিস্টেম"></div>
+        <div class="comp" t-en="Transactions" t-bn="লেনদেন"></div>
+        <div class="comp" t-en="Monitoring tools" t-bn="মনিটরিং টুল"></div>
+        <div class="comp hot" t-en="Evaluation point: controlled test service" t-bn="মূল্যায়ন-বিন্দু: নিয়ন্ত্রিত টেস্ট সার্ভিস"></div>
+        <div class="usecases" t-en="Prototyping &amp; research · randomness-related application testing · controlled evaluation of compatible components · hybrid-randomness research · benchmarking against the existing source" t-bn="প্রোটোটাইপ ও গবেষণা · র‍্যান্ডমনেস-সংশ্লিষ্ট অ্যাপ্লিকেশন পরীক্ষা · সামঞ্জস্যপূর্ণ অংশের নিয়ন্ত্রিত মূল্যায়ন · হাইব্রিড র‍্যান্ডমনেস গবেষণা · বিদ্যমান উৎসের সঙ্গে বেঞ্চমার্ক"></div>
+      </div>
+      <div class="metrics" data-in="c2">
+        <b t-en="Measured by the test application" t-bn="টেস্ট অ্যাপ্লিকেশন যা পরিমাপ করে"></b>
+        <div><span t-en="Latency" t-bn="ল্যাটেন্সি"></span><span t-en="Throughput" t-bn="থ্রুপুট"></span><span t-en="Availability" t-bn="প্রাপ্যতা"></span><span t-en="Error handling" t-bn="ত্রুটি ব্যবস্থাপনা"></span><span t-en="Format compatibility" t-bn="ফরম্যাট সামঞ্জস্য"></span><span t-en="Cost" t-bn="খরচ"></span></div>
+      </div>
+    </div>
+    <div class="comply" data-in="c3" t-en="<b>Live wagering:</b> any change must follow the game's approved outcome-generation design, the applicable regulations and independent testing-laboratory requirements. Shown here as a technical evaluation — not as an approved game RNG." t-bn="<b>লাইভ ওয়েজারিং:</b> যেকোনো পরিবর্তনকে গেমের অনুমোদিত ফলাফল-নকশা, প্রযোজ্য বিধিমালা ও স্বাধীন টেস্টিং ল্যাবের শর্ত মানতে হবে। এখানে এটি কারিগরি মূল্যায়ন হিসেবে দেখানো হয়েছে — অনুমোদিত গেম RNG হিসেবে নয়।"></div>
+  </section>
+
+  <!-- 4 · API key integration, step by step --------------------------------- -->
+  <section class="scene" id="s-api">
+    <h1 class="title" data-in="0.2" t-en="API key integration: <span class='hl'>step by step</span>" t-bn="API key সংযুক্তি: <span class='hl'>ধাপে ধাপে</span>"></h1>
+    <div class="apiwrap">
+      <div class="apileft">
+        <ol class="steps">
+          <li data-in="c0+0.2"><span>1</span><div><b t-en="Obtain API access" t-bn="API অ্যাক্সেস নিন"></b><small t-en="Account · service tier · usage limits" t-bn="অ্যাকাউন্ট · সার্ভিস টিয়ার · ব্যবহার-সীমা"></small></div></li>
+          <li data-in="c0+1.2"><span>2</span><div><b t-en="Receive the API key" t-bn="API key পান"></b><small t-en="Format sk_… (fleet devices: sk_dev_…)" t-bn="ফরম্যাট sk_… (ডিভাইসের জন্য sk_dev_…)"></small></div></li>
+          <li data-in="c1"><span>3</span><div><b t-en="Store it server-side" t-bn="সার্ভারে সংরক্ষণ করুন"></b><small t-en="Secret manager or protected env variable" t-bn="সিক্রেট ম্যানেজার বা সুরক্ষিত env ভেরিয়েবল"></small></div></li>
+          <li data-in="c2"><span>4</span><div><b t-en="Send an authenticated request" t-bn="প্রমাণীকৃত অনুরোধ পাঠান"></b><small>Authorization: Bearer &lt;key&gt;</small></div></li>
+          <li data-in="c3"><span>5</span><div><b t-en="Receive the response" t-bn="রেসপন্স গ্রহণ করুন"></b><small t-en="hex · base64 · binary" t-bn="hex · base64 · binary"></small></div></li>
+          <li data-in="c4"><span>6</span><div><b t-en="Handle errors &amp; monitor usage" t-bn="ত্রুটি সামলান ও ব্যবহার পর্যবেক্ষণ করুন"></b><small t-en="Retry-After · timeouts · signed usage export" t-bn="Retry-After · টাইমআউট · স্বাক্ষরিত ব্যবহার-রিপোর্ট"></small></div></li>
+        </ol>
+        <div class="usagecard" data-in="c5">
+          <b t-en="Usage monitoring" t-bn="ব্যবহার পর্যবেক্ষণ"></b>
+          <small t-en="Per-key rate limit and monthly quota · signed CSV usage export from the dashboard, verifiable offline" t-bn="প্রতি key-এর রেট লিমিট ও মাসিক কোটা · ড্যাশবোর্ড থেকে স্বাক্ষরিত CSV ব্যবহার-রিপোর্ট, অফলাইনে যাচাইযোগ্য"></small>
+          <small class="lim" t-en="Plan limits: 60 · 300 · 1,000 · 6,000 requests per minute" t-bn="প্ল্যান-সীমা: প্রতি মিনিটে ৬০ · ৩০০ · ১,০০০ · ৬,০০০ অনুরোধ"></small>
+        </div>
+      </div>
+      <div class="apiright">
+        <div class="code" data-in="c1">
+          <div class="chead"><span t-en="Backend configuration" t-bn="ব্যাকএন্ড কনফিগারেশন"></span><em t-en="fictional placeholder key" t-bn="কাল্পনিক প্লেসহোল্ডার key"></em></div>
+<pre><span class="c"># server-side only — never in a browser, mobile app or public repo</span>
+SONICIUM_API_KEY=<span class="s">"YOUR_SONICIUM_API_KEY"</span></pre>
+        </div>
+        <div class="code" data-in="c2">
+          <div class="chead"><span t-en="Request" t-bn="অনুরোধ"></span><em class="ok">✓ <span t-en="verified syntax" t-bn="যাচাইকৃত সিনট্যাক্স"></span></em></div>
+<pre><span class="c">$</span> curl -sS --max-time 10 \
+  <span class="s">"https://api.soniciumentropy.com/v1/random?length=32&amp;format=hex"</span> \
+  -H <span class="s">"Authorization: Bearer $SONICIUM_API_KEY"</span></pre>
+        </div>
+        <div class="swap">
+          <div class="code resp" data-in="c3" data-out="c4-0.2">
+            <div class="chead"><span>HTTP 200 · application/json</span><em t-en="sanitized sample — values are examples" t-bn="নমুনা — মানগুলো উদাহরণ"></em></div>
+<pre>{
+  <span class="p">"data"</span>: <span class="s">"4cc5673986cbff63e4c2a4b28df98d4c1978319fbfd305dccc4bcd7c8e74e56a"</span>,
+  <span class="p">"length"</span>: 32, <span class="p">"format"</span>: <span class="s">"hex"</span>, <span class="p">"register"</span>: <span class="s">"Q135"</span>,
+  <span class="p">"drbgAlgorithm"</span>: <span class="s">"CTR-DRBG-AES-256"</span>,
+  <span class="p">"healthCheck"</span>: { <span class="p">"rct"</span>: <span class="s">"passed"</span>, <span class="p">"apt"</span>: <span class="s">"passed"</span>, <span class="p">"excludedChannels"</span>: [] },
+  <span class="p">"seedId"</span>: <span class="s">"…"</span>, <span class="p">"sourceJobIds"</span>: [<span class="s">"…"</span>],
+  <span class="p">"servedAt"</span>: <span class="s">"2026-10-12T09:30:00.000Z"</span>
+}</pre>
+          </div>
+          <div class="errs" data-in="c4">
+            <table>
+              <tr><th>HTTP</th><th t-en="Meaning" t-bn="অর্থ"></th><th t-en="Client action" t-bn="ক্লায়েন্টের করণীয়"></th></tr>
+              <tr><td>401</td><td t-en="Invalid, revoked or expired key" t-bn="অবৈধ, বাতিল বা মেয়াদোত্তীর্ণ key"></td><td t-en="Fix the credential — do not retry" t-bn="ক্রেডেনশিয়াল ঠিক করুন — রিট্রাই নয়"></td></tr>
+              <tr><td>429</td><td t-en="Per-minute rate limit" t-bn="প্রতি মিনিটের রেট লিমিট"></td><td t-en="Wait Retry-After, then retry" t-bn="Retry-After অপেক্ষা করে রিট্রাই"></td></tr>
+              <tr><td>429</td><td t-en="Monthly quota spent (no Retry-After)" t-bn="মাসিক কোটা শেষ (Retry-After নেই)"></td><td t-en="Stop · upgrade the tier" t-bn="থামুন · টিয়ার বাড়ান"></td></tr>
+              <tr><td>503</td><td t-en="Entropy pool refilling" t-bn="এন্ট্রপি পুল পূরণ হচ্ছে"></td><td t-en="Wait Retry-After (≥ 60 s), retry" t-bn="Retry-After (≥ ৬০ সে.) অপেক্ষা, রিট্রাই"></td></tr>
+              <tr><td>502</td><td t-en="Upstream engine unreachable" t-bn="আপস্ট্রিম ইঞ্জিন অপ্রাপ্য"></td><td t-en="Retry with backoff" t-bn="ব্যাকঅফসহ রিট্রাই"></td></tr>
+              <tr><td>413</td><td t-en="Over the per-call length limit" t-bn="প্রতি কলের দৈর্ঘ্য-সীমার বেশি"></td><td t-en="Split the request" t-bn="অনুরোধ ভাগ করুন"></td></tr>
+              <tr><td>—</td><td t-en="Timeout / no response" t-bn="টাইমআউট / সাড়া নেই"></td><td t-en="GET is safe to retry" t-bn="GET নিরাপদে রিট্রাই করা যায়"></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · business value ------------------------------------------------------ -->
+  <section class="scene" id="s-value">
+    <h1 class="title" data-in="0.2" t-en="How much <span class='hl'>business value</span>?" t-bn="কতটা <span class='hl'>ব্যবসায়িক মূল্য</span>?"></h1>
+    <div class="vareas" data-in="c0+0.3">
+      <span t-en="Less effort to integrate an external randomness source" t-bn="বাহ্যিক র‍্যান্ডমনেস উৎস সংযুক্তিতে কম শ্রম"></span>
+      <span t-en="New research &amp; testing capability" t-bn="নতুন গবেষণা ও পরীক্ষার সক্ষমতা"></span>
+      <span t-en="Simple access to quantum-randomness data" t-bn="কোয়ান্টাম-র‍্যান্ডমনেস ডেটায় সহজ প্রবেশ"></span>
+      <span t-en="A differentiated technology roadmap" t-bn="স্বতন্ত্র প্রযুক্তি রোডম্যাপ"></span>
+    </div>
+    <div class="compare" data-in="c1">
+      <table>
+        <tr><th t-en="Metric" t-bn="মেট্রিক"></th><th t-en="Current randomness setup" t-bn="বর্তমান র‍্যান্ডমনেস ব্যবস্থা"></th><th t-en="With Sonicium Entropy API" t-bn="Sonicium Entropy API-সহ"></th></tr>
+        <tr data-in="c1+0.4"><td t-en="Engineering hours" t-bn="ইঞ্জিনিয়ারিং ঘণ্টা"></td><td class="tbm" t-en="measure" t-bn="পরিমাপ করুন"></td><td class="tbm" t-en="measure in pilot" t-bn="পাইলটে পরিমাপ"></td></tr>
+        <tr data-in="c1+1.4"><td t-en="Integration cost" t-bn="সংযুক্তির খরচ"></td><td class="tbm" t-en="measure" t-bn="পরিমাপ করুন"></td><td class="tbm" t-en="measure in pilot" t-bn="পাইলটে পরিমাপ"></td></tr>
+        <tr data-in="c1+2.4"><td t-en="Cost per million requests" t-bn="প্রতি মিলিয়ন অনুরোধের খরচ"></td><td class="tbm" t-en="measure" t-bn="পরিমাপ করুন"></td><td class="tbm" t-en="from agreed pricing" t-bn="সম্মত মূল্য থেকে"></td></tr>
+        <tr data-in="c1+3.4"><td t-en="Response latency (p50 / p95)" t-bn="রেসপন্স ল্যাটেন্সি (p50 / p95)"></td><td class="tbm" t-en="measure" t-bn="পরিমাপ করুন"></td><td class="tbm" t-en="measure in pilot" t-bn="পাইলটে পরিমাপ"></td></tr>
+        <tr data-in="c1+4.4"><td t-en="Error rate" t-bn="ত্রুটির হার"></td><td class="tbm" t-en="measure" t-bn="পরিমাপ করুন"></td><td class="tbm" t-en="measure in pilot" t-bn="পাইলটে পরিমাপ"></td></tr>
+        <tr data-in="c1+5.4"><td t-en="Operating cost" t-bn="পরিচালন ব্যয়"></td><td class="tbm" t-en="measure" t-bn="পরিমাপ করুন"></td><td class="tbm" t-en="measure in pilot" t-bn="পাইলটে পরিমাপ"></td></tr>
+      </table>
+    </div>
+    <div class="vbottom">
+      <div class="notrev" data-in="c2" t-en="<b>Not a revenue lever.</b> Quantum randomness does not increase revenue or change the house edge. Game economics come from approved game mathematics, player activity, payout structure, operating costs and customer acquisition." t-bn="<b>আয় বাড়ানোর উপায় নয়।</b> কোয়ান্টাম র‍্যান্ডমনেস আয় বাড়ায় না, হাউস এজও বদলায় না। গেমের অর্থনীতি নির্ধারিত হয় অনুমোদিত গেম-গণিত, খেলোয়াড়দের কার্যকলাপ, পেআউট কাঠামো, পরিচালন ব্যয় ও গ্রাহক অর্জন দিয়ে।"></div>
+      <div class="bcase" data-in="c3"><span t-en="Measurable infrastructure value" t-bn="পরিমাপযোগ্য অবকাঠামোগত মূল্য"></span><em>+</em><span t-en="Suitable applications" t-bn="উপযুক্ত প্রয়োগ"></span><em>+</em><span t-en="Viable service agreement" t-bn="টেকসই সার্ভিস চুক্তি"></span></div>
+    </div>
+  </section>
+
+  <!-- 6 · ROI calculator --------------------------------------------------------- -->
+  <section class="scene" id="s-roi">
+    <h1 class="title" data-in="0.2" t-en="ROI calculator: <span class='hl'>an illustrative business case</span>" t-bn="ROI ক্যালকুলেটর: <span class='hl'>একটি দৃষ্টান্তমূলক হিসাব</span>"></h1>
+    <div class="roilabel" data-in="0.5" t-en="ILLUSTRATIVE SCENARIO — NOT A CUSTOMER FORECAST OR GUARANTEED RETURN" t-bn="দৃষ্টান্তমূলক দৃশ্যপট — গ্রাহকের পূর্বাভাস বা নিশ্চিত রিটার্ন নয়"></div>
+    <div class="roirow">
+      <div class="inputs" data-in="c0">
+        <div class="ihead" t-en="Sample inputs (editable)" t-bn="নমুনা ইনপুট (সম্পাদনযোগ্য)"></div>
+        <div class="irow" data-in="c0+0.6"><span t-en="Monthly API requests" t-bn="মাসিক API অনুরোধ"></span><b id="in-req"></b></div>
+        <div class="irow" data-in="c0+2.0"><span t-en="Monthly service fee (sample)" t-bn="মাসিক সার্ভিস ফি (নমুনা)"></span><b id="in-fee"></b></div>
+        <div class="irow" data-in="c0+3.6"><span t-en="Initial integration cost" t-bn="প্রাথমিক সংযুক্তির খরচ"></span><b id="in-int"></b></div>
+        <div class="irow" data-in="c1"><span t-en="Monthly operating cost" t-bn="মাসিক পরিচালন ব্যয়"></span><b id="in-ops"></b></div>
+        <div class="irow ben" data-in="c2"><span t-en="Monthly measurable benefit (client-verified)" t-bn="মাসিক পরিমাপযোগ্য সুবিধা (ক্লায়েন্ট-যাচাইকৃত)"></span><b id="in-ben"></b></div>
+      </div>
+      <div class="outputs">
+        <div class="tile" data-in="c1+0.6"><small t-en="Monthly recurring cost" t-bn="মাসিক পুনরাবৃত্ত খরচ"></small><b id="o-mrc"></b><em t-en="fee + ops" t-bn="ফি + পরিচালন"></em></div>
+        <div class="tile" data-in="c1+1.6"><small t-en="First-year total cost" t-bn="প্রথম বছরের মোট খরচ"></small><b id="o-fyc"></b><em t-en="integration + 12 × monthly" t-bn="সংযুক্তি + ১২ × মাসিক"></em></div>
+        <div class="tile" data-in="c1+2.6"><small t-en="First-year volume" t-bn="প্রথম বছরের অনুরোধ"></small><b id="o-vol"></b><em t-en="12 × monthly requests" t-bn="১২ × মাসিক অনুরোধ"></em></div>
+        <div class="tile" data-in="c1+3.6"><small t-en="Cost per million requests" t-bn="প্রতি মিলিয়ন অনুরোধের খরচ"></small><b id="o-cpm"></b><em t-en="planning metric" t-bn="পরিকল্পনার মেট্রিক"></em></div>
+        <div class="tile" data-in="c2+0.6"><small t-en="Annual measurable benefit" t-bn="বার্ষিক পরিমাপযোগ্য সুবিধা"></small><b id="o-ab"></b><em t-en="12 × monthly benefit" t-bn="১২ × মাসিক সুবিধা"></em></div>
+        <div class="tile" data-in="c2+1.4"><small t-en="Net first-year benefit" t-bn="প্রথম বছরের নিট সুবিধা"></small><b id="o-net"></b><em t-en="benefit − cost" t-bn="সুবিধা − খরচ"></em></div>
+        <div class="tile roi" data-in="c2+2.2"><small t-en="Illustrative first-year ROI" t-bn="দৃষ্টান্তমূলক প্রথম-বছরের ROI"></small><b id="o-roi"></b><em t-en="net ÷ cost × 100" t-bn="নিট ÷ খরচ × ১০০"></em></div>
+        <div class="tile chart" data-in="c2+0.3"><svg id="roichart" viewBox="0 0 252 192"></svg></div>
+      </div>
+    </div>
+    <div class="roinote" data-in="c3" id="roinote"></div>
+  </section>
+
+  <!-- 7 · scalability, commercial terms & partnership --------------------------------- -->
+  <section class="scene" id="s-stages">
+    <h1 class="title" data-in="0.2" t-en="A staged path: <span class='hl'>proof of concept → pilot → commercial</span>" t-bn="ধাপভিত্তিক পথ: <span class='hl'>প্রুফ অব কনসেপ্ট → পাইলট → বাণিজ্যিক</span>"></h1>
+    <div class="stagebar"><div id="sfill"></div></div>
+    <div class="stagecards">
+      <div class="stage" data-in="c1"><span t-en="Stage 1" t-bn="ধাপ ১"></span><b t-en="Technical proof of concept" t-bn="টেকনিক্যাল প্রুফ অব কনসেপ্ট"></b><ul><li t-en="Connectivity" t-bn="সংযোগ"></li><li t-en="Authentication" t-bn="প্রমাণীকরণ"></li><li t-en="Response formats" t-bn="রেসপন্স ফরম্যাট"></li><li t-en="Baseline performance" t-bn="মৌলিক পারফরম্যান্স"></li></ul></div>
+      <div class="stage" data-in="c2"><span t-en="Stage 2" t-bn="ধাপ ২"></span><b t-en="Controlled pilot" t-bn="নিয়ন্ত্রিত পাইলট"></b><ul><li t-en="Real workload performance" t-bn="বাস্তব ওয়ার্কলোডে পারফরম্যান্স"></li><li t-en="Reliability" t-bn="নির্ভরযোগ্যতা"></li><li t-en="Operating cost" t-bn="পরিচালন ব্যয়"></li><li t-en="Compatibility" t-bn="সামঞ্জস্য"></li></ul></div>
+      <div class="stage" data-in="c3"><span t-en="Stage 3" t-bn="ধাপ ৩"></span><b t-en="Commercial evaluation" t-bn="বাণিজ্যিক মূল্যায়ন"></b><ul><li t-en="Pricing structure" t-bn="মূল্য কাঠামো"></li><li t-en="Service limits" t-bn="সার্ভিস-সীমা"></li><li t-en="Support arrangements" t-bn="সহায়তা ব্যবস্থা"></li><li t-en="Production requirements" t-bn="প্রোডাকশনের শর্ত"></li></ul></div>
+    </div>
+    <div class="scale" data-in="c3+1.5" t-en="<b>At larger scale, assess together:</b> throughput capacity · concurrency · service levels · data handling · incident response · any validation the intended use requires" t-bn="<b>বড় পরিসরে একসঙ্গে যাচাই:</b> থ্রুপুট সক্ষমতা · কনকারেন্সি · সার্ভিস লেভেল · ডেটা ব্যবস্থাপনা · ইনসিডেন্ট রেসপন্স · প্রয়োজনীয় অতিরিক্ত যাচাই"></div>
+  </section>
+
+  <!-- 8 · the next step ------------------------------------------------------------ -->
+  <section class="scene" id="s-next">
+    <div class="nextwrap" data-out="c2-0.3">
+      <h1 class="title" data-in="0.2" t-en="The <span class='hl'>next step</span>" t-bn="<span class='hl'>পরবর্তী ধাপ</span>"></h1>
+      <div class="nsteps">
+        <div data-in="c0+0.4"><span>1</span><b t-en="Define the use case" t-bn="ব্যবহারের ক্ষেত্র নির্ধারণ"></b></div>
+        <div data-in="c0+1.6"><span>2</span><b t-en="Review the API documentation" t-bn="API ডকুমেন্টেশন পর্যালোচনা"></b></div>
+        <div data-in="c0+2.8"><span>3</span><b t-en="Agree a test workload" t-bn="টেস্ট ওয়ার্কলোডে সম্মতি"></b></div>
+        <div data-in="c0+4.0"><span>4</span><b t-en="Set performance &amp; commercial metrics" t-bn="পারফরম্যান্স ও বাণিজ্যিক মেট্রিক নির্ধারণ"></b></div>
+      </div>
+      <div class="invite" data-in="c1" t-en="An invitation to your technical and business teams: explore the platform and plan an evaluation together." t-bn="আপনার কারিগরি ও ব্যবসায়িক দলের প্রতি আমন্ত্রণ: প্ল্যাটফর্মটি দেখুন এবং একসঙ্গে মূল্যায়ন-পরিকল্পনা করুন।"></div>
+    </div>
+    <div class="closing">
+      <div class="megatitle" data-in="c2">SONICIUM <b>ENTROPY</b></div>
+      <div class="tagline" data-in="c3" t-en="Quantum randomness · API-driven integration · A new opportunity for technology collaboration" t-bn="কোয়ান্টাম র‍্যান্ডমনেস · API-চালিত সংযুক্তি · প্রযুক্তি সহযোগিতার নতুন সুযোগ"></div>
+      <div class="ctarow" data-in="c4-0.2"><img src="assets/sql-logo.png" alt=""><span class="url">soniciumentropy.com</span><span class="url alt">soniciumquantumlab.com</span></div>
+    </div>
+  </section>
+
+  <div class="subs" id="subs"><span id="subtext"></span></div>
+  <div class="progress"><div id="bar"></div></div>
+</div>
+<script src="script.js"></script>
+<script src="data.js"></script>
+<script src="animate.js"></script>
+</body>
+</html>
