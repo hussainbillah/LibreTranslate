@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>কোয়ান্টাম পাঠমালা — অধ্যায় ১</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage">
+  <div class="bg"><canvas id="particles"></canvas><div class="vignette"></div></div>
+
+  <header class="chrome">
+    <div class="series"><span class="qmark"></span>কোয়ান্টাম পাঠমালা <em>· অধ্যায় ১</em></div>
+    <div class="section" id="sectionlabel"></div>
+  </header>
+
+  <!-- 1 · hook ------------------------------------------------------------ -->
+  <section class="scene" id="s-hook">
+    <div class="opener" data-in="0.2" data-out="c2-0.4">
+      <div class="kicker">কোয়ান্টাম পাঠমালা</div>
+      <div class="bigtitle" data-in="c1">অধ্যায় ১</div>
+      <div class="bigsub" data-in="c1+0.6">কিউবিট, সুপারপজিশন ও পরিমাপ</div>
+    </div>
+    <canvas id="cloud" class="cloud" width="900" height="900" data-in="c2"></canvas>
+    <div class="hooktext">
+      <div class="lead" data-in="c2+0.4" data-out="c4-0.3">প্রকৃতির অতি ক্ষুদ্র কণার <b>কোয়ান্টাম বৈশিষ্ট্য</b> কাজে লাগিয়ে<br>কিছু জটিল সমস্যার সমাধান</div>
+      <div class="hero" data-in="c3" data-out="c4-0.3">কোয়ান্টাম কম্পিউটিং <small>Quantum Computing</small></div>
+      <div class="questions">
+        <div class="q" data-in="c4"><span>?</span>কোয়ান্টাম কম্পিউটার কীভাবে কাজ করে?</div>
+        <div class="q" data-in="c5"><span>?</span>তথ্যের মৌলিক একক কেন সাধারণ বিটের মতো নয়?</div>
+        <div class="q" data-in="c6"><span>?</span>সুপারপজিশন, পরিমাপ ও এনট্যাঙ্গলমেন্ট কী?</div>
+      </div>
+      <div class="roadmap" data-in="c7">
+        <span>কিউবিট</span><i>→</i><span>সুপারপজিশন</span><i>→</i><span>পরিমাপ</span><i>→</i><span>এনট্যাঙ্গলমেন্ট</span><i>→</i><span>গেট ও ব্যতিচার</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · title card --------------------------------------------------------- -->
+  <section class="scene" id="s-title">
+    <svg id="titlebloch" class="titlebloch" viewBox="-200 -200 400 400" data-in="0"></svg>
+    <div class="titleblock">
+      <div class="kicker" data-in="0.2">স্বাগতম · কোয়ান্টাম পাঠমালা</div>
+      <div class="chapno" data-in="0.5">অধ্যায় ১</div>
+      <div class="chaptitle" data-in="c1">কিউবিট, সুপারপজিশন ও পরিমাপ</div>
+      <div class="chapen" data-in="c1+0.7">Qubits, Superposition &amp; Measurement</div>
+    </div>
+  </section>
+
+  <!-- 3 · why quantum computing ---------------------------------------------- -->
+  <section class="scene" id="s-why">
+    <div class="seccard" data-out="c1-0.2"><span>১</span>কেন কোয়ান্টাম কম্পিউটিং?</div>
+    <div class="cols">
+      <div class="col">
+        <div class="devices" data-in="c1">
+          <div class="dev"><i data-icon="phone"></i>মোবাইল ফোন</div>
+          <div class="dev"><i data-icon="laptop"></i>ল্যাপটপ</div>
+          <div class="dev"><i data-icon="rack"></i>সুপারকম্পিউটার</div>
+        </div>
+        <div class="tag" data-in="c2">ক্লাসিক্যাল কম্পিউটার <small>Classical computers</small></div>
+        <div class="bitstream" data-in="c3" id="bitstream"></div>
+        <div class="eqcard" data-in="c4"><span class="tex" data-tex="\text{bit} \in \{\,0,\;1\,\}"></span><small>একটি বিট: শূন্য, নয়তো এক</small></div>
+      </div>
+      <div class="col">
+        <svg id="molecule" class="molecule" viewBox="-260 -170 520 340" data-in="c5"></svg>
+        <div class="tag violet" data-in="c5+0.6">প্রকৃতির ক্ষুদ্রতম জগৎ: কোয়ান্টাম পদার্থবিজ্ঞান</div>
+        <div class="growth" data-in="c6">
+          <div class="gtitle">n টি দ্বি-অবস্থা কোয়ান্টাম কণার পূর্ণ অবস্থা লিখতে লাগে <span class="tex" data-tex="2^n"></span> টি জটিল সংখ্যা</div>
+          <div class="grow" id="growrows"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Feynman / not faster at everything --------------------------------- -->
+  <section class="scene" id="s-feynman">
+    <div class="cols">
+      <div class="col">
+        <div class="timeline" data-in="0.3">
+          <div class="tl"><b>1980</b><span>Paul Benioff · Yuri Manin<small>কোয়ান্টাম গণনার প্রাথমিক ধারণা</small></span></div>
+          <div class="tl hot"><b>1981</b><span>Richard Feynman<small>“Simulating Physics with Computers” (প্রকাশ 1982)</small></span></div>
+        </div>
+        <div class="simloop" data-in="c1">
+          <div class="node">প্রকৃতি<small>কোয়ান্টাম নিয়মে চলে</small></div>
+          <svg class="loop" viewBox="0 0 220 120"><path d="M10 40 Q110 -10 210 40" /><path d="M210 80 Q110 130 10 80"/><polygon points="204,30 214,42 200,44"/><polygon points="16,90 6,78 20,76"/></svg>
+          <div class="node q">কোয়ান্টাম কম্পিউটার<small>কোয়ান্টাম নিয়মে চলে</small></div>
+        </div>
+        <div class="note" data-in="c1+1.2">কোয়ান্টাম ব্যবস্থাকে আরও দক্ষভাবে অনুকরণ করা <b>সম্ভব হতে পারে</b></div>
+      </div>
+      <div class="col">
+        <div class="myth" data-in="c2">কোয়ান্টাম কম্পিউটার <b>সব কাজে দ্রুত নয়</b></div>
+        <div class="tasks" data-in="c3">
+          <div class="task"><i data-icon="mail"></i>ইমেইল পাঠানো<em>ক্লাসিক্যাল ✓</em></div>
+          <div class="task"><i data-icon="play"></i>ভিডিও দেখা<em>ক্লাসিক্যাল ✓</em></div>
+          <div class="task"><i data-icon="calc"></i>সাধারণ হিসাব<em>ক্লাসিক্যাল ✓</em></div>
+        </div>
+        <div class="adv" data-in="c4">
+          <div class="advt">বিশেষ সুবিধা: <b>নির্দিষ্ট কিছু সমস্যায়</b></div>
+          <div class="advrow"><span>কোয়ান্টাম ব্যবস্থার সিমুলেশন<small>অণু · পদার্থ</small></span><span>কিছু নির্দিষ্ট গাণিতিক সমস্যা<small>যেমন বড় সংখ্যার উৎপাদক নির্ণয়</small></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · bit to qubit ------------------------------------------------------- -->
+  <section class="scene" id="s-bit">
+    <div class="seccard" data-out="c1-0.2"><span>২</span>ক্লাসিক্যাল বিট থেকে কিউবিট</div>
+    <div class="cols">
+      <div class="col center">
+        <svg id="switch" class="switch" viewBox="0 0 520 300" data-in="c1"></svg>
+        <div class="switchlab" data-in="c2"><span class="off">বন্ধ = 0</span><span class="on">চালু = 1</span></div>
+        <div class="tag" data-in="c3">ক্লাসিক্যাল বিট: যেকোনো মুহূর্তে 0 <b>অথবা</b> 1</div>
+      </div>
+      <div class="col center">
+        <div class="qubitword" data-in="c4"><span class="qglow"></span>কিউবিট <small>qubit = quantum bit</small></div>
+        <div class="basis2" data-in="c6">
+          <div class="ket"><span class="tex" data-tex="|0\rangle"></span><small>কেট জিরো</small></div>
+          <div class="ket"><span class="tex" data-tex="|1\rangle"></span><small>কেট ওয়ান</small></div>
+        </div>
+        <div class="anatomy" data-in="c7">
+          <span class="tex" data-tex="|\,0\,\rangle"></span>
+          <div class="anlab"><b>|</b> ভার্টিক্যাল বার &nbsp; · &nbsp; <b>0</b> অবস্থার নাম &nbsp; · &nbsp; <b>⟩</b> অ্যাঙ্গেল ব্র‍্যাকেট <small>এই চিহ্নকে বলে ket (কেট)</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · general qubit state -------------------------------------------------- -->
+  <section class="scene" id="s-state">
+    <div class="statehead" data-in="0.2">একটি কিউবিট দুটি মৌলিক অবস্থার <b>সুপারপজিশনে</b> থাকতে পারে</div>
+    <div class="bigeq" data-in="c1+0.5"><span class="tex" data-d data-tex="|\psi\rangle \;=\; \color{#22d3ee}{\alpha}\,|0\rangle \;+\; \color{#a78bfa}{\beta}\,|1\rangle"></span></div>
+    <div class="amplabels" data-in="c3">
+      <span class="a">α, β = অ্যাম্প্লিচিউড <small>amplitude</small></span>
+      <span class="b" data-in="c4">জটিল সংখ্যা হতে পারে <span class="tex" data-tex="\alpha,\beta\in\mathbb{C}"></span></span>
+    </div>
+    <div class="cols low">
+      <div class="col center">
+        <svg id="cplane" class="cplane" viewBox="-170 -170 340 340" data-in="c4"></svg>
+        <div class="smallnote" data-in="c4+0.6">উদাহরণ: <span class="tex" data-tex="\alpha = 0.6,\;\; \beta = 0.8\,i"></span></div>
+      </div>
+      <div class="col center">
+        <div class="normeq" data-in="c5"><span class="tex" data-d data-tex="|\alpha|^2 + |\beta|^2 = 1"></span></div>
+        <div class="normcheck" data-in="c5+1.4"><span class="tex" data-tex="0.6^2 + |0.8i|^2 = 0.36 + 0.64 = 1\;\checkmark"></span></div>
+        <div class="badge" data-in="c6">নর্মালাইজেশন <small>Normalization</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · Dirac notation ------------------------------------------------------ -->
+  <section class="scene" id="s-dirac">
+    <div class="seccard" data-out="c1-0.2"><span>৩</span>ডিরাক নোটেশন</div>
+    <div class="cols">
+      <div class="col center">
+        <div class="tag" data-in="c1">ডিরাক নোটেশন <small>Dirac (bra–ket) notation</small></div>
+        <div class="vecs">
+          <div class="vec" data-in="c2"><span class="tex" data-d data-tex="|0\rangle = \begin{pmatrix}1\\0\end{pmatrix}"></span></div>
+          <div class="vec" data-in="c3"><span class="tex" data-d data-tex="|1\rangle = \begin{pmatrix}0\\1\end{pmatrix}"></span></div>
+        </div>
+        <div class="vecsum" data-in="c4"><span class="tex" data-d data-tex="|\psi\rangle = \alpha\begin{pmatrix}1\\0\end{pmatrix} + \beta\begin{pmatrix}0\\1\end{pmatrix} = \begin{pmatrix}\alpha\\\beta\end{pmatrix}"></span></div>
+      </div>
+      <div class="col center">
+        <svg id="vplane" class="vplane" viewBox="-60 -300 360 360" data-in="c2"></svg>
+        <div class="uses" data-in="c5">
+          <div><b>অবস্থা</b><span class="tex" data-tex="\begin{pmatrix}\alpha\\\beta\end{pmatrix}"></span><small>ভেক্টর</small></div>
+          <div><b>গেটের প্রভাব</b><span class="tex" data-tex="X\begin{pmatrix}1\\0\end{pmatrix}=\begin{pmatrix}0\\1\end{pmatrix}"></span><small>ম্যাট্রিক্স × ভেক্টর</small></div>
+          <div><b>সম্ভাবনা</b><span class="tex" data-tex="|\alpha|^2,\;|\beta|^2"></span><small>বর্ন নিয়ম</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · superposition ---------------------------------------------------------- -->
+  <section class="scene" id="s-superpos">
+    <div class="seccard" data-out="c1-0.2"><span>৪</span>সুপারপজিশন আসলে কী?</div>
+    <div class="cols">
+      <div class="col center">
+        <div class="tag" data-in="c1">কোয়ান্টাম কম্পিউটিংয়ের অন্যতম গুরুত্বপূর্ণ ধারণা</div>
+        <svg id="ampbars" class="ampbars" viewBox="0 0 560 360" data-in="c1+0.4"></svg>
+        <div class="cond" data-in="c2"><span class="tex" data-tex="\alpha \neq 0 \;\text{ এবং }\; \beta \neq 0 \;\Rightarrow\; \text{সুপারপজিশন}"></span></div>
+      </div>
+      <div class="col center">
+        <div class="tag violet" data-in="c3">একটি বিশেষ অবস্থা</div>
+        <div class="bigeq2" data-in="c4"><span class="tex" data-d data-tex="|+\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}}"></span></div>
+        <div class="probpair" data-in="c5">
+          <div><span class="tex" data-tex="P(0) = \left|\tfrac{1}{\sqrt2}\right|^2"></span><b>50%</b></div>
+          <div><span class="tex" data-tex="P(1) = \left|\tfrac{1}{\sqrt2}\right|^2"></span><b>50%</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · coin vs superposition, interference ------------------------------------- -->
+  <section class="scene" id="s-coin">
+    <div class="misbanner" data-in="c1">সুপারপজিশন মানে কিউবিটের ভেতরে <b>দুটি লুকানো ক্লাসিক্যাল উত্তর নয়</b></div>
+    <div class="cols">
+      <div class="col center">
+        <svg id="coin" class="coin" viewBox="-160 -160 320 320" data-in="c2"></svg>
+        <div class="tag" data-in="c2+0.5">ঘুরতে থাকা মুদ্রা</div>
+        <div class="smallnote" data-in="c3">অনিশ্চয়তা মূলত <b>আমাদের অজ্ঞতা</b> · সাধারণ সম্ভাবনা <span class="tex" data-tex="p=\tfrac12"></span> — চিহ্ন বা দশা নেই</div>
+      </div>
+      <div class="col center">
+        <div class="pmpair" data-in="c4">
+          <div><span class="tex" data-d data-tex="|+\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle \color{#22d3ee}{\,+\,} |1\rangle\big)"></span></div>
+          <div><span class="tex" data-d data-tex="|-\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle \color{#f472b6}{\,-\,} |1\rangle\big)"></span></div>
+          <small>দুটিতেই P(0) = P(1) = ½, তবু অবস্থা দুটি আলাদা — পার্থক্য অ্যাম্প্লিচিউডের <b>চিহ্নে</b></small>
+        </div>
+        <svg id="waves" class="waves" viewBox="0 0 640 300" data-in="c5"></svg>
+        <div class="badge" data-in="c6">ব্যতিচার <small>Interference</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · measurement & Born rule ------------------------------------------------ -->
+  <section class="scene" id="s-born">
+    <div class="seccard" data-out="c1-0.2"><span>৫</span>পরিমাপ এবং বর্ন নিয়ম</div>
+    <div class="measflow" data-in="c1" data-out="c2-0.3">
+      <div class="mq">কিউবিট <span class="tex" data-tex="|\psi\rangle"></span></div><i>→</i>
+      <div class="meter"><i data-icon="meter"></i>পরিমাপ</div><i>→</i>
+      <div class="mout">ক্লাসিক্যাল ফল: <b>0</b> অথবা <b>1</b></div>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <div class="tag violet" data-in="c2">বর্ন নিয়ম <small>Born rule</small> &nbsp;<span class="tex" data-tex="P(0)=|\alpha|^2,\;\; P(1)=|\beta|^2"></span></div>
+        <div class="bigeq3" data-in="c3"><span class="tex" data-d data-tex="|\psi\rangle = \frac{\sqrt3}{2}\,|0\rangle + \frac{i}{2}\,|1\rangle"></span></div>
+        <div class="calc" data-in="c4"><span class="tex" data-d data-tex="P(0) = \left|\frac{\sqrt3}{2}\right|^2 = \frac34"></span></div>
+        <div class="calc" data-in="c5"><span class="tex" data-d data-tex="P(1) = \left|\frac{i}{2}\right|^2 = \frac{|i|^2}{4} = \frac14"></span></div>
+      </div>
+      <div class="col center">
+        <svg id="bornbars" class="bornbars" viewBox="0 0 520 380" data-in="c4"></svg>
+        <div class="sumeq" data-in="c7"><span class="tex" data-tex="\tfrac34 + \tfrac14 = 1"></span></div>
+        <div class="badge" data-in="c8">নর্মালাইজেশন শর্তের ব্যবহারিক অর্থ</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · after measurement, statistics ------------------------------------------ -->
+  <section class="scene" id="s-collapse">
+    <div class="cols">
+      <div class="col center">
+        <div class="tag" data-in="0.2">পরিমাপের আগে → পরে</div>
+        <div class="collapse">
+          <div class="cbox" data-in="0.4"><small>আগে</small><span class="tex" data-tex="\tfrac{\sqrt3}{2}|0\rangle + \tfrac{i}{2}|1\rangle"></span></div>
+          <div class="carrow" data-in="0.9"><i data-icon="meter"></i><b id="shotlab">ফল: 0</b></div>
+          <div class="cbox after" data-in="1.4"><small>পরে</small><span class="tex" data-tex="|0\rangle"></span></div>
+        </div>
+        <div class="smallnote" data-in="c1">আগের সুপারপজিশনের তথ্য আর একইভাবে পাওয়া যায় না</div>
+        <div class="oneshot" data-in="c2">একবার পরিমাপ = <b>একটি বিট</b>, সব তথ্য নয়</div>
+      </div>
+      <div class="col center">
+        <div class="tag violet" data-in="c3">একই সার্কিট বহুবার চালিয়ে পরিসংখ্যান</div>
+        <svg id="shots" class="shots" viewBox="0 0 560 420" data-in="c3"></svg>
+        <div class="smallnote" data-in="c3+0.6">সিমুলেটেড শট · প্রত্যাশিত অনুপাত ৭৫% : ২৫%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · Bloch sphere ------------------------------------------------------------ -->
+  <section class="scene" id="s-bloch">
+    <div class="seccard" data-out="c1-0.2"><span>৬</span>ব্লখ গোলক</div>
+    <div class="blochwrap" data-in="c1">
+      <svg id="bloch" class="bloch" viewBox="-330 -330 660 660"></svg>
+      <div class="blabel" id="bl0">|0⟩</div><div class="blabel" id="bl1">|1⟩</div>
+      <div class="blabel" id="blp">|+⟩</div><div class="blabel" id="blm">|−⟩</div>
+    </div>
+    <div class="blochside">
+      <div class="tag" data-in="c1">ব্লখ গোলক <small>Bloch sphere</small></div>
+      <div class="bitem" data-in="c3"><b>উত্তর মেরু</b> <span class="tex" data-tex="|0\rangle"></span> &nbsp; · &nbsp; <b>দক্ষিণ মেরু</b> <span class="tex" data-tex="|1\rangle"></span></div>
+      <div class="bitem" data-in="c4"><b>বিষুবরেখা</b> <span class="tex" data-tex="|+\rangle,\;|-\rangle"></span> — সমান সুপারপজিশন</div>
+      <div class="bitem eq" data-in="c5"><span class="tex" data-d data-tex="|\psi\rangle = \cos\tfrac{\theta}{2}\,|0\rangle + e^{i\varphi}\sin\tfrac{\theta}{2}\,|1\rangle"></span><small>প্রতিটি বিন্দু একটি নির্দিষ্ট (বিশুদ্ধ) কিউবিট অবস্থা</small></div>
+      <div class="bitem" data-in="c6"><b>একক-কিউবিট গেট = ঘূর্ণন</b><small id="rotlab">X: x-অক্ষে 180° ঘূর্ণন · H: (x+z) অক্ষে 180°</small></div>
+      <div class="warnbox" data-in="c7">ভুল ধারণা: <s>অসংখ্য বিন্দু = অসীম তথ্য</s>
+        <div data-in="c8">একটি কিউবিট মেপে পাওয়া যায় <b>একটি ক্লাসিক্যাল বিট</b> — 0 অথবা 1</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · many qubits ---------------------------------------------------------------- -->
+  <section class="scene" id="s-multi">
+    <div class="seccard" data-out="c1-0.2"><span>৭</span>একাধিক কিউবিট ও এনট্যাঙ্গলমেন্ট</div>
+    <div class="krows">
+      <div class="krow" data-in="c1"><b>১ কিউবিট</b><div class="kets" data-kets="0,1"></div><em>2</em></div>
+      <div class="krow" data-in="c2"><b>২ কিউবিট</b><div class="kets" id="k2" data-kets="00,01,10,11"></div><em>4</em></div>
+      <div class="krow" data-in="c3"><b>৩ কিউবিট</b><div class="kets" data-kets="000,001,010,011,100,101,110,111"></div><em>8</em></div>
+      <div class="krow n" data-in="c4"><b>n কিউবিট</b><div class="kets"><span class="tex" data-tex="|0\cdots0\rangle,\;\ldots,\;|1\cdots1\rangle"></span></div><em><span class="tex" data-tex="2^n"></span></em></div>
+    </div>
+  </section>
+
+  <!-- 14 · entanglement ------------------------------------------------------------- -->
+  <section class="scene" id="s-entangle">
+    <div class="cols">
+      <div class="col center">
+        <div class="tag violet" data-in="0.2">এনট্যাঙ্গলমেন্ট <small>কোয়ান্টাম জড়াজড়ি · entanglement</small></div>
+        <svg id="pair" class="pair" viewBox="0 0 600 260" data-in="0.4"></svg>
+        <div class="tag" data-in="c1">বেল স্টেট <small>Bell state</small></div>
+        <div class="bigeq2" data-in="c2"><span class="tex" data-d data-tex="|\Phi^+\rangle = \frac{|00\rangle + |11\rangle}{\sqrt2}"></span></div>
+      </div>
+      <div class="col center">
+        <div class="pairtable" data-in="c3">
+          <div class="pth"><span>প্রথম কিউবিট</span><span>দ্বিতীয় কিউবিট</span><span></span></div>
+          <div id="pairrows"></div>
+          <div class="ptnote"><span data-in="c3+0.4">প্রথম: 0 বা 1, প্রতিটি ৫০%</span><span data-in="c4">একই ভিত্তিতে মাপলে ফল <b>মিলে যায়</b></span></div>
+        </div>
+        <div class="nofl" data-in="c5">
+          <div class="labs"><span>পরীক্ষাগার A</span><svg viewBox="0 0 300 40"><line x1="0" y1="20" x2="300" y2="20"/></svg><span>পরীক্ষাগার B</span></div>
+          <b>আলোর চেয়ে দ্রুত বার্তা পাঠানো যায় না</b>
+          <small data-in="c6">ফল নিয়ন্ত্রণ করা যায় না · তথ্য আদান-প্রদানে সাধারণ (ক্লাসিক্যাল) যোগাযোগ লাগে</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 · gates X Z H ----------------------------------------------------------------- -->
+  <section class="scene" id="s-gates1">
+    <div class="seccard" data-out="c1-0.2"><span>৮</span>কোয়ান্টাম গেট</div>
+    <div class="analog" data-in="c1">ক্লাসিক্যাল লজিক গেট <span class="lg">NOT · AND · OR</span> <i>→</i> কোয়ান্টাম গেট</div>
+    <div class="gates">
+      <div class="gate" data-in="c2">
+        <div class="gbox x">X</div>
+        <div class="gm"><span class="tex" data-tex="X=\begin{pmatrix}0&1\\1&0\end{pmatrix}"></span></div>
+        <div class="gact" data-in="c3"><span class="tex" data-tex="X|0\rangle=|1\rangle"></span><span class="tex" data-tex="X|1\rangle=|0\rangle"></span></div>
+        <div class="gname" data-in="c4">কোয়ান্টাম NOT গেট</div>
+      </div>
+      <div class="gate" data-in="c5">
+        <div class="gbox z">Z</div>
+        <div class="gm"><span class="tex" data-tex="Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}"></span></div>
+        <div class="gact" data-in="c6"><span class="tex" data-tex="Z|0\rangle=|0\rangle"></span><span class="tex" data-tex="Z|1\rangle=-|1\rangle"></span></div>
+        <div class="gname" data-in="c6+0.8">|1⟩-এর অ্যাম্প্লিচিউডের চিহ্ন বদলায়</div>
+      </div>
+      <div class="gate" data-in="c7">
+        <div class="gbox h">H</div>
+        <div class="gm"><span class="tex" data-tex="H=\tfrac{1}{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}"></span></div>
+        <div class="gact" data-in="c8"><span class="tex" data-tex="H|0\rangle=|+\rangle"></span><span class="tex" data-in="c9" data-tex="H|1\rangle=|-\rangle"></span></div>
+        <div class="gname" data-in="c7+0.6">হাদামার্ড গেট</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 · CNOT ------------------------------------------------------------------------ -->
+  <section class="scene" id="s-cnot">
+    <div class="cols">
+      <div class="col center">
+        <div class="tag" data-in="0.2">CNOT <small>controlled-NOT · সি-নট</small></div>
+        <svg id="cnotsym" class="cnotsym" viewBox="0 0 520 260" data-in="0.4"></svg>
+      </div>
+      <div class="col center">
+        <div class="truth" data-in="c1">
+          <div class="tr th"><span>কন্ট্রোল</span><span>টার্গেট</span><i></i><span>কন্ট্রোল</span><span>টার্গেট</span></div>
+          <div class="tr" data-k="0"><span>0</span><span>0</span><i>→</i><span>0</span><span>0</span></div>
+          <div class="tr" data-k="0"><span>0</span><span>1</span><i>→</i><span>0</span><span>1</span></div>
+          <div class="tr" data-k="1"><span>1</span><span>0</span><i>→</i><span>1</span><span class="flip">1</span></div>
+          <div class="tr" data-k="1"><span>1</span><span>1</span><i>→</i><span>1</span><span class="flip">0</span></div>
+        </div>
+        <div class="smallnote" data-in="c2">কন্ট্রোল = 1 → টার্গেট উল্টে যায় &nbsp; · &nbsp; <span data-in="c3">কন্ট্রোল = 0 → অপরিবর্তিত</span></div>
+      </div>
+    </div>
+    <svg id="bigcircuit" class="bigcircuit" viewBox="0 0 1500 230" data-in="c4"></svg>
+  </section>
+
+  <!-- 17 · interference: H then H ----------------------------------------------------------- -->
+  <section class="scene" id="s-interf">
+    <div class="seccard" data-out="c1-0.2"><span>৯</span>ব্যতিচার: কোয়ান্টাম অ্যালগরিদমের প্রাণ</div>
+    <svg id="hhcirc" class="hhcirc" viewBox="0 0 900 120" data-in="c2"></svg>
+    <svg id="paths" class="paths" viewBox="0 0 1500 560" data-in="c3"></svg>
+    <div class="identity" data-in="c8"><span class="tex" data-tex="H\,H = I \quad\Rightarrow\quad H H|0\rangle = |0\rangle"></span><small>পরিচয় রূপান্তর (identity)</small></div>
+  </section>
+
+  <!-- 18 · interference in algorithms ------------------------------------------------------ -->
+  <section class="scene" id="s-algo">
+    <div class="cols">
+      <div class="col center">
+        <svg id="waves2" class="waves2" viewBox="0 0 640 430" data-in="c1"></svg>
+      </div>
+      <div class="col center">
+        <div class="tag violet" data-in="c2">অ্যালগরিদমের কৌশল: গেট সাজিয়ে ভুল উত্তরের সম্ভাবনা ↓, সঠিক উত্তরের ↑</div>
+        <svg id="amplify" class="amplify" viewBox="0 0 600 365" data-in="c2+0.4"></svg>
+        <div class="smallnote" data-in="c2+0.8">ধারণাগত চিত্র</div>
+        <div class="myth soft" data-in="c3">এই সুবিধা সব সমস্যায় নয় <small data-in="c4">নির্ভর করে সমস্যার গঠন ও অ্যালগরিদমের নকশার ওপর</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19 · Qiskit ------------------------------------------------------------------------- -->
+  <section class="scene" id="s-qiskit">
+    <div class="seccard" data-out="c1-0.2"><span>১০</span>Qiskit দিয়ে প্রথম কোয়ান্টাম সার্কিট</div>
+    <div class="cols">
+      <div class="col">
+        <div class="tag" data-in="c2">Qiskit · কোয়ান্টাম সার্কিট তৈরি ও পরীক্ষার সফটওয়্যার কাঠামো</div>
+        <div class="code" data-in="c1+0.3" id="code"></div>
+      </div>
+      <div class="col center">
+        <svg id="bellcirc" class="bellcirc" viewBox="0 0 640 300" data-in="c3"></svg>
+        <div class="bigeq2" data-in="c6"><span class="tex" data-d data-tex="|00\rangle \xrightarrow{\;H\otimes I\;} \tfrac{|00\rangle+|10\rangle}{\sqrt2} \xrightarrow{\;\text{CNOT}\;} \tfrac{|00\rangle+|11\rangle}{\sqrt2}"></span></div>
+        <div class="smallnote" data-in="c6+0.6">কেট-এ প্রথম অঙ্ক = প্রথম কিউবিট (q0)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20 · results ---------------------------------------------------------------------------- -->
+  <section class="scene" id="s-results">
+    <div class="cols">
+      <div class="col center">
+        <div class="tag" data-in="0.2">আদর্শ গাণিতিক মডেল</div>
+        <svg id="idealbars" class="hist" viewBox="0 0 600 380" data-in="0.3"></svg>
+        <div class="smallnote" data-in="c1">|01⟩ ও |10⟩-এর সম্ভাবনা শূন্য</div>
+      </div>
+      <div class="col center">
+        <div class="tag violet" data-in="c2">বাস্তব কোয়ান্টাম হার্ডওয়্যার</div>
+        <svg id="noisybars" class="hist" viewBox="0 0 600 380" data-in="c2+0.3"></svg>
+        <div class="smallnote" data-in="c2+0.8">চিত্রায়িত উদাহরণ, মাপা তথ্য নয় · গেটের ত্রুটি · পরিমাপের ত্রুটি · পরিবেশের প্রভাব</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21 · summary ------------------------------------------------------------------------- -->
+  <section class="scene" id="s-summary">
+    <div class="seccard" data-out="c1-0.2"><span></span>উপসংহার</div>
+    <div class="recap">
+      <div class="rc" data-in="c1+0.2"><b>কিউবিট</b><span class="tex" data-tex="\alpha|0\rangle+\beta|1\rangle"></span></div>
+      <div class="rc" data-in="c1+1.4"><b>সুপারপজিশন</b><span class="tex" data-tex="|+\rangle=\tfrac{|0\rangle+|1\rangle}{\sqrt2}"></span></div>
+      <div class="rc" data-in="c1+3.2"><b>বর্ন নিয়ম</b><span class="tex" data-tex="P(0)=|\alpha|^2"></span></div>
+      <div class="rc" data-in="c1+6.0"><b>এনট্যাঙ্গলমেন্ট</b><span class="tex" data-tex="\tfrac{|00\rangle+|11\rangle}{\sqrt2}"></span></div>
+      <div class="rc" data-in="c2+0.8"><b>গেট</b><span class="tex" data-tex="X,\;Z,\;H,\;\text{CNOT}"></span></div>
+      <div class="rc" data-in="c2+4.0"><b>ব্যতিচার</b><span class="tex" data-tex="HH|0\rangle=|0\rangle"></span></div>
+    </div>
+    <div class="takeaway" data-in="c3">কোয়ান্টাম কম্পিউটার <b>একবারে সব উত্তর পড়ে ফেলতে পারে না</b></div>
+    <div class="takeaway pos" data-in="c4">শক্তি আসে অবস্থাকে পরিকল্পিতভাবে সাজিয়ে <b>কাঙ্ক্ষিত ফলের সম্ভাবনা বাড়ানো</b> থেকে</div>
+  </section>
+
+  <!-- 22 · outro ------------------------------------------------------------------------------ -->
+  <section class="scene" id="s-outro">
+    <div class="done" data-in="0.2"><span>✓</span>অধ্যায় ১ সম্পন্ন · প্রথম গুরুত্বপূর্ণ ধাপ</div>
+    <div class="next" data-in="c1">
+      <small>পরবর্তী অধ্যায়</small>
+      <b>কোয়ান্টাম সার্কিটের মডেল</b>
+      <b>ডয়েচ-জোজা অ্যালগরিদম <em>Deutsch–Jozsa</em></b>
+    </div>
+    <div class="thanks" data-in="c2">কোয়ান্টাম পাঠমালার সঙ্গে থাকার জন্য ধন্যবাদ</div>
+    <div class="seeyou" data-in="c3">দেখা হবে পরবর্তী অধ্যায়ে</div>
+  </section>
+
+  <div class="subs" id="subs"><span id="subtext"></span></div>
+  <div class="progress"><i id="bar"></i></div>
+</div>
+<script>window.TIMING_SRC = "timing.js";</script>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="script.js"></script>
+<script src="timing.js"></script>
+<script src="animate.js"></script>
+</body>
+</html>

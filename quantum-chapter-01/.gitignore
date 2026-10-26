@@ -2,3 +2,5 @@ output/stills/
 output/*.log
 output/soundtrack*.wav
 __pycache__/
+output/voiceover_48k.wav
+output/err.log
