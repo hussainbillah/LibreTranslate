@@ -1,0 +1,651 @@
+1
+00:00:06,260 --> 00:00:09,910
+Welcome to the fascinating world of quantum computing.
+
+2
+00:00:10,040 --> 00:00:13,920
+This educational series is written by Hussein Billah and
+
+3
+00:00:13,920 --> 00:00:18,330
+published by Sonicium Quantum Lab Limited, also known as SQLL.
+
+4
+00:00:18,490 --> 00:00:22,280
+In this first chapter, we will explore three fundamental
+
+5
+00:00:22,280 --> 00:00:25,890
+concepts: qubits, superposition, and measurement.
+
+6
+00:00:26,040 --> 00:00:30,070
+We will learn how quantum computers differ from classical computers
+
+7
+00:00:30,070 --> 00:00:34,480
+and how quantum information is represented, transformed, and measured.
+
+8
+00:00:34,750 --> 00:00:35,770
+Let's begin.
+
+9
+00:00:38,670 --> 00:00:43,340
+Our laptops, smartphones, and supercomputers are classical computers.
+
+10
+00:00:43,410 --> 00:00:48,440
+They process information using bits, each representing either zero or one.
+
+11
+00:00:48,590 --> 00:00:52,620
+Classical computers are incredibly powerful, but simulating certain
+
+12
+00:00:52,620 --> 00:00:57,080
+quantum systems becomes extremely difficult as the systems grow larger.
+
+13
+00:00:57,200 --> 00:01:01,170
+For example, describing the quantum state of fifty electrons may
+
+14
+00:01:01,170 --> 00:01:05,650
+require approximately two to the power of fifty complex amplitudes.
+
+15
+00:01:05,760 --> 00:01:09,880
+The computational challenge grows rapidly as more particles are added.
+
+16
+00:01:10,040 --> 00:01:13,640
+Nature, however, operates according to quantum mechanics.
+
+17
+00:01:13,750 --> 00:01:16,000
+Scientists, including Richard Feynman,
+
+18
+00:01:16,000 --> 00:01:19,790
+explored the idea that computers based on quantum principles could
+
+19
+00:01:19,790 --> 00:01:23,060
+simulate quantum systems more naturally and potentially
+
+20
+00:01:23,060 --> 00:01:26,400
+outperform classical computers on certain problems.
+
+21
+00:01:26,960 --> 00:01:30,010
+Quantum computers are not faster for everything.
+
+22
+00:01:30,110 --> 00:01:33,830
+Everyday tasks will remain well suited to classical computers.
+
+23
+00:01:33,940 --> 00:01:37,270
+Quantum computing offers potential advantages for particular
+
+24
+00:01:37,270 --> 00:01:41,320
+problems whose structure allows quantum effects to be used effectively.
+
+25
+00:01:41,450 --> 00:01:45,690
+To understand these possibilities, we must first understand the qubit.
+
+26
+00:01:49,280 --> 00:01:51,660
+Think of a classical bit as a switch.
+
+27
+00:01:51,690 --> 00:01:56,320
+It can be off, representing zero, or on, representing one.
+
+28
+00:01:56,480 --> 00:02:00,220
+A qubit, or quantum bit, is a quantum system with two
+
+29
+00:02:00,220 --> 00:02:04,790
+fundamental basis states, written as ket zero and ket one.
+
+30
+00:02:04,910 --> 00:02:08,640
+A qubit can also occupy a superposition of these states.
+
+31
+00:02:08,710 --> 00:02:11,280
+We express a general qubit state as:
+
+32
+00:02:11,310 --> 00:02:15,290
+Psi equals alpha ket zero plus beta ket one.
+
+33
+00:02:15,380 --> 00:02:17,690
+Mathematically, this is written as:
+
+34
+00:02:17,720 --> 00:02:21,110
+|ψ⟩ = α|0⟩ + β|1⟩
+
+35
+00:02:21,690 --> 00:02:26,040
+Alpha and beta are complex numbers called probability amplitudes.
+
+36
+00:02:26,110 --> 00:02:29,010
+They must satisfy the normalization condition:
+
+37
+00:02:29,100 --> 00:02:31,380
+|α|² + |β|² = 1
+
+38
+00:02:31,410 --> 00:02:35,740
+This condition ensures that the probabilities
+
+39
+00:02:35,740 --> 00:02:40,570
+of all possible measurement outcomes add up to one.
+
+40
+00:02:40,990 --> 00:02:43,680
+Qubits can be implemented using different technologies,
+
+41
+00:02:43,680 --> 00:02:47,500
+including superconducting circuits, trapped ions, neutral atoms, and photons.
+
+42
+00:02:47,530 --> 00:02:49,870
+Although the hardware differs,
+
+43
+00:02:49,870 --> 00:02:55,070
+the same mathematical framework describes their quantum states.
+
+44
+00:02:56,810 --> 00:03:01,200
+The notation used to describe quantum states is called Dirac notation,
+
+45
+00:03:01,200 --> 00:03:03,550
+named after physicist Paul Dirac.
+
+46
+00:03:03,580 --> 00:03:08,990
+The symbols |0⟩ and |1⟩ represent the two computational basis states.
+
+47
+00:03:09,020 --> 00:03:16,510
+In vector form, ket zero is the column vector one, zero, while ket one is the column vector zero, one.
+
+48
+00:03:16,560 --> 00:03:20,210
+A general qubit is a two-dimensional complex vector.
+
+49
+00:03:20,250 --> 00:03:23,330
+You may also encounter bras and inner products.
+
+50
+00:03:23,360 --> 00:03:26,960
+A bra is the mathematical partner of a ket, and their inner product
+
+51
+00:03:26,960 --> 00:03:30,610
+helps describe the relationship between two quantum states.
+
+52
+00:03:30,640 --> 00:03:35,320
+For example, the inner product of ket zero and ket one is zero.
+
+53
+00:03:35,350 --> 00:03:37,870
+This means the states are orthogonal.
+
+54
+00:03:37,900 --> 00:03:40,400
+These mathematical tools provide the language
+
+55
+00:03:40,400 --> 00:03:43,390
+needed to describe quantum information precisely.
+
+56
+00:03:45,450 --> 00:03:51,900
+When both alpha and beta are nonzero, the qubit is in a superposition of the two basis states.
+
+57
+00:03:51,930 --> 00:03:56,520
+People often say that a qubit is both zero and one at the same time.
+
+58
+00:03:56,570 --> 00:04:01,230
+This phrase can be a useful introduction, but it is not a complete explanation.
+
+59
+00:04:01,260 --> 00:04:03,030
+Consider a spinning coin.
+
+60
+00:04:03,060 --> 00:04:07,090
+Before it lands, we may not know whether it will show heads or tails.
+
+61
+00:04:07,130 --> 00:04:10,600
+This is ordinary uncertainty about a classical object.
+
+62
+00:04:10,630 --> 00:04:13,060
+Quantum superposition is different.
+
+63
+00:04:13,090 --> 00:04:16,270
+A quantum state contains probability amplitudes,
+
+64
+00:04:16,270 --> 00:04:19,600
+and these amplitudes can be negative or complex.
+
+65
+00:04:19,630 --> 00:04:22,970
+Most importantly, amplitudes can interfere.
+
+66
+00:04:23,040 --> 00:04:26,720
+Consider two states: the plus state and the minus state.
+
+67
+00:04:26,800 --> 00:04:31,880
+The plus state is ket zero plus ket one, divided by the square root of two.
+
+68
+00:04:31,910 --> 00:04:37,060
+The minus state is ket zero minus ket one, divided by the square root of two.
+
+69
+00:04:37,110 --> 00:04:41,110
+Both states give a fifty-percent probability of measuring zero and a
+
+70
+00:04:41,110 --> 00:04:45,550
+fifty-percent probability of measuring one in the computational basis.
+
+71
+00:04:45,580 --> 00:04:49,870
+Yet they are different quantum states because their relative phases differ.
+
+72
+00:04:49,910 --> 00:04:53,480
+This difference becomes important when quantum gates are applied.
+
+73
+00:04:53,520 --> 00:04:58,680
+Superposition does not mean that a quantum computer simply reads every answer at once.
+
+74
+00:04:58,710 --> 00:05:01,980
+Quantum algorithms manipulate amplitudes so that useful
+
+75
+00:05:01,980 --> 00:05:05,360
+outcomes can become more likely through interference.
+
+76
+00:05:07,810 --> 00:05:10,620
+How do we obtain a definite result from a qubit?
+
+77
+00:05:10,700 --> 00:05:11,730
+We measure it.
+
+78
+00:05:11,760 --> 00:05:15,860
+When a qubit in the state alpha ket zero plus beta ket one is
+
+79
+00:05:15,860 --> 00:05:20,520
+measured in the computational basis, the result is zero or one.
+
+80
+00:05:20,560 --> 00:05:26,380
+According to the Born rule, the probability of measuring zero is the squared magnitude of alpha.
+
+81
+00:05:26,410 --> 00:05:30,320
+The probability of measuring one is the squared magnitude of beta.
+
+82
+00:05:30,350 --> 00:05:31,990
+In mathematical form:
+
+83
+00:05:32,050 --> 00:05:34,740
+P(0) = |α|²
+
+84
+00:05:34,770 --> 00:05:37,240
+P(1) = |β|²
+
+85
+00:05:37,390 --> 00:05:41,540
+Suppose the state is the square root of three divided by two,
+
+86
+00:05:41,540 --> 00:05:46,410
+multiplied by ket zero, plus i divided by two, multiplied by ket one.
+
+87
+00:05:46,560 --> 00:05:51,410
+The probability of obtaining zero is three-quarters, or seventy-five percent.
+
+88
+00:05:51,560 --> 00:05:56,070
+The probability of obtaining one is one-quarter, or twenty-five percent.
+
+89
+00:05:56,220 --> 00:05:58,480
+The probabilities add up to one.
+
+90
+00:05:58,660 --> 00:06:01,400
+Measurement also changes the quantum state.
+
+91
+00:06:01,520 --> 00:06:04,260
+After an ideal measurement, the qubit is left in the
+
+92
+00:06:04,260 --> 00:06:07,300
+basis state corresponding to the observed result.
+
+93
+00:06:07,440 --> 00:06:12,320
+If we immediately measure it again in the same basis, the same result will occur.
+
+94
+00:06:12,480 --> 00:06:15,840
+This is often described as the collapse of the quantum state.
+
+95
+00:06:15,990 --> 00:06:19,650
+Measurement is therefore a fundamental part of quantum computing,
+
+96
+00:06:19,650 --> 00:06:22,970
+not simply a way to observe a qubit without affecting it.
+
+97
+00:06:25,000 --> 00:06:27,590
+How can we visualize a single qubit?
+
+98
+00:06:27,770 --> 00:06:30,850
+One useful representation is the Bloch sphere.
+
+99
+00:06:30,970 --> 00:06:34,930
+A pure single-qubit state can be represented by a point on
+
+100
+00:06:34,930 --> 00:06:39,430
+the surface of a sphere, specified by two angles, theta and phi.
+
+101
+00:06:39,580 --> 00:06:41,890
+The north pole represents ket zero.
+
+102
+00:06:41,920 --> 00:06:44,280
+The south pole represents ket one.
+
+103
+00:06:44,410 --> 00:06:47,320
+Other points represent different superpositions.
+
+104
+00:06:47,450 --> 00:06:51,920
+The Bloch sphere helps us visualize how quantum gates transform a qubit.
+
+105
+00:06:52,070 --> 00:06:56,430
+Many single-qubit gates can be understood as rotations on this sphere.
+
+106
+00:06:56,560 --> 00:07:02,010
+It provides a geometric interpretation of quantum states that might otherwise seem abstract.
+
+107
+00:07:04,990 --> 00:07:07,910
+Quantum gates transform quantum states.
+
+108
+00:07:08,030 --> 00:07:13,270
+The X gate exchanges ket zero and ket one, similar to a classical bit flip.
+
+109
+00:07:13,430 --> 00:07:17,120
+The Z gate changes the relative phase of the state components.
+
+110
+00:07:17,250 --> 00:07:22,720
+The Hadamard gate, or H gate, transforms a basis state into a superposition.
+
+111
+00:07:22,850 --> 00:07:26,310
+Applying it to ket zero produces the plus state: ket
+
+112
+00:07:26,310 --> 00:07:29,990
+zero plus ket one, divided by the square root of two.
+
+113
+00:07:30,210 --> 00:07:34,040
+When multiple qubits interact, they can become entangled.
+
+114
+00:07:34,180 --> 00:07:35,750
+Consider the Bell state:
+
+115
+00:07:35,780 --> 00:07:40,440
+Ket zero zero plus ket one one, divided by the square root of two.
+
+116
+00:07:40,600 --> 00:07:44,460
+When measured in the computational basis, the ideal outcomes
+
+117
+00:07:44,460 --> 00:07:48,690
+are zero-zero and one-one, each with a fifty-percent probability.
+
+118
+00:07:48,840 --> 00:07:53,830
+The joint state cannot be represented as two independent single-qubit states.
+
+119
+00:07:53,950 --> 00:07:57,150
+This is a defining feature of quantum entanglement.
+
+120
+00:07:57,290 --> 00:08:02,080
+However, entanglement does not allow information to travel faster than light.
+
+121
+00:08:04,590 --> 00:08:08,890
+Interference is one of the central principles behind quantum algorithms.
+
+122
+00:08:09,020 --> 00:08:12,490
+Quantum amplitudes can reinforce or cancel one another, depending on their relative phases.
+
+123
+00:08:12,520 --> 00:08:18,480
+These effects are called constructive and destructive interference.
+
+124
+00:08:18,540 --> 00:08:21,880
+Consider applying a Hadamard gate twice to ket zero.
+
+125
+00:08:21,900 --> 00:08:25,200
+The first application creates an equal superposition.
+
+126
+00:08:25,230 --> 00:08:28,620
+The second application returns the qubit to ket zero.
+
+127
+00:08:28,650 --> 00:08:32,670
+The amplitudes combine so that the contributions leading to one cancel,
+
+128
+00:08:32,670 --> 00:08:35,800
+while those leading to zero reinforce one another.
+
+129
+00:08:35,840 --> 00:08:40,370
+This illustrates how quantum operations can change measurement probabilities.
+
+130
+00:08:40,400 --> 00:08:44,870
+Many quantum algorithms use carefully designed gate sequences to increase
+
+131
+00:08:44,870 --> 00:08:49,840
+the probability of useful outcomes and reduce the probability of unwanted ones.
+
+132
+00:08:53,100 --> 00:08:55,960
+Now let's connect theory with practice.
+
+133
+00:08:56,020 --> 00:09:00,380
+Qiskit is a software framework for building and studying quantum circuits.
+
+134
+00:09:00,420 --> 00:09:06,350
+We can use it to create a Bell state with two qubits, both initially in the state zero-zero.
+
+135
+00:09:06,380 --> 00:09:11,500
+First, we apply a Hadamard gate to the first qubit, creating a superposition.
+
+136
+00:09:11,530 --> 00:09:18,680
+Next, we apply a CNOT gate, using the first qubit as the control and the second as the target.
+
+137
+00:09:18,710 --> 00:09:20,960
+The resulting state is the Bell state:
+
+138
+00:09:21,000 --> 00:09:25,730
+Ket zero zero plus ket one one, divided by the square root of two.
+
+139
+00:09:25,760 --> 00:09:29,320
+In an ideal simulation, the measurement probabilities are
+
+140
+00:09:29,320 --> 00:09:32,930
+fifty percent for zero-zero and fifty percent for one-one.
+
+141
+00:09:32,960 --> 00:09:35,820
+The other two outcomes have zero probability.
+
+142
+00:09:35,860 --> 00:09:41,150
+On real quantum hardware, a small number of unexpected results may appear because of noise,
+
+143
+00:09:41,150 --> 00:09:45,950
+imperfect gates, measurement errors, and interactions with the environment.
+
+144
+00:09:45,980 --> 00:09:51,330
+Understanding and reducing this noise is an important part of quantum computing research.
+
+145
+00:09:53,010 --> 00:09:55,010
+Let's summarize what we have learned.
+
+146
+00:09:55,040 --> 00:09:58,720
+A qubit is the fundamental unit of quantum information.
+
+147
+00:09:58,750 --> 00:10:03,140
+Its state can be expressed as a superposition of ket zero and ket one,
+
+148
+00:10:03,140 --> 00:10:06,000
+using complex probability amplitudes.
+
+149
+00:10:06,030 --> 00:10:09,960
+The Born rule connects these amplitudes to measurement probabilities.
+
+150
+00:10:09,990 --> 00:10:14,000
+The Bloch sphere provides a geometric picture of a single qubit.
+
+151
+00:10:14,030 --> 00:10:17,990
+Quantum gates transform quantum states, while entanglement creates
+
+152
+00:10:17,990 --> 00:10:21,790
+correlations that cannot be described as independent states.
+
+153
+00:10:21,820 --> 00:10:25,040
+Finally, interference allows quantum algorithms
+
+154
+00:10:25,040 --> 00:10:28,410
+to reinforce some outcomes and suppress others.
+
+155
+00:10:28,440 --> 00:10:33,070
+Remember, quantum computers do not simply provide every answer at once.
+
+156
+00:10:33,100 --> 00:10:36,750
+Their potential comes from carefully controlling quantum states
+
+157
+00:10:36,750 --> 00:10:40,500
+and interference to solve particular computational problems.
+
+158
+00:10:41,070 --> 00:10:45,970
+This concludes Chapter One: Qubits, Superposition, and Measurement.
+
+159
+00:10:46,020 --> 00:10:51,330
+This chapter was written by Hussein Billah and published by Sonicium Quantum Lab Limited, SQLL.
+
+160
+00:10:51,360 --> 00:10:55,880
+In the next chapter, we will explore the quantum circuit model and take
+
+161
+00:10:55,880 --> 00:11:00,560
+our first steps toward understanding the Deutsch-Jozsa algorithm.
+
+162
+00:11:00,640 --> 00:11:04,250
+Thank you for joining us on this journey into quantum computing.
+
+163
+00:11:04,280 --> 00:11:08,820
+Keep learning, keep questioning, and keep exploring the quantum world.

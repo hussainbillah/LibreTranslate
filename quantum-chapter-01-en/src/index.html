@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quantum Computing — Chapter 1</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="en">
+<div id="stage">
+  <div class="bg"><canvas id="particles"></canvas><div class="vignette"></div></div>
+
+  <header class="chrome">
+    <div class="series"><span class="qmark"></span>Quantum Computing <em>· Chapter 1</em></div>
+    <div class="section" id="sectionlabel"></div>
+  </header>
+
+  <!-- 1 · title ---------------------------------------------------------------- -->
+  <section class="scene" id="s-title">
+    <canvas id="cloud" class="cloud" width="900" height="900" data-in="0.4"></canvas>
+    <div class="hooktext entitle">
+      <div class="kicker" data-in="0.2">Quantum Computing</div>
+      <div class="bigtitle" data-in="0.6">Chapter 1</div>
+      <div class="bigsub" data-in="c1">Qubits, Superposition, and Measurement</div>
+      <div class="lead" data-in="c2">Welcome to the fascinating world of <b>quantum computing</b>.</div>
+    </div>
+  </section>
+
+  <!-- 2 · credit and chapter map ---------------------------------------------------------- -->
+  <section class="scene" id="s-credit">
+    <div class="creditcard" data-in="0.2">
+      <img src="assets/sql-logo.png" alt="SQLL logo">
+      <div>
+        <small>An educational series</small>
+        <div class="by">Written by <b>Hussein Billah</b></div>
+        <div class="pub">Published by <b>Sonicium Quantum Lab Limited</b> <span>(SQLL)</span></div>
+      </div>
+    </div>
+    <div class="concepts" data-in="c1">
+      <div class="concept" data-in="c1+2.2"><span class="tex" data-tex="|\psi\rangle"></span><b>Qubits</b></div>
+      <div class="concept" data-in="c1+3.0"><span class="tex" data-tex="\alpha|0\rangle+\beta|1\rangle"></span><b>Superposition</b></div>
+      <div class="concept" data-in="c1+3.8"><span class="tex" data-tex="P(0)=|\alpha|^2"></span><b>Measurement</b></div>
+    </div>
+    <div class="flow3" data-in="c2+1.6">
+      <span>classical vs quantum</span><i>·</i><span>represented</span><i>→</i><span>transformed</span><i>→</i><span>measured</span>
+    </div>
+    <div class="begin" data-in="c3">Let's begin.</div>
+  </section>
+
+  <!-- 3 · why quantum computing --------------------------------------------------- -->
+  <section class="scene" id="s-why">
+    <div class="seccard" data-out="c1-0.2"><span>1</span>Why Quantum Computing?</div>
+    <div class="cols">
+      <div class="col">
+        <div class="devices" data-in="c1">
+          <div class="dev"><i data-icon="laptop"></i>Laptops</div>
+          <div class="dev"><i data-icon="phone"></i>Smartphones</div>
+          <div class="dev"><i data-icon="rack"></i>Supercomputers</div>
+        </div>
+        <div class="tag" data-in="c1+1.5">Classical computers</div>
+        <div class="bitstream" data-in="c2" id="bitstream"></div>
+        <div class="eqcard" data-in="c2+1"><span class="tex" data-tex="\text{bit} \in \{\,0,\;1\,\}"></span><small>each bit is either zero or one</small></div>
+      </div>
+      <div class="col">
+        <svg id="molecule" class="molecule" viewBox="-260 -170 520 340" data-in="c3"></svg>
+        <div class="tag violet" data-in="c3+0.8">Simulating quantum systems gets hard as they grow</div>
+        <div class="growth" data-in="c4">
+          <div class="gtitle">Quantum state of <b>n</b> electrons (spins): up to <span class="tex" data-tex="2^n"></span> complex amplitudes</div>
+          <div class="grow" id="growrows"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Feynman / not faster for everything --------------------------------------------- -->
+  <section class="scene" id="s-feynman">
+    <div class="cols">
+      <div class="col">
+        <div class="tag violet" data-in="0.2">Nature operates according to quantum mechanics</div>
+        <div class="timeline" data-in="c1">
+          <div class="tl hot"><b>1981</b><span>Richard Feynman<small>“Simulating Physics with Computers” (published 1982)</small></span></div>
+        </div>
+        <div class="simloop" data-in="c1+1.2">
+          <div class="node">Nature<small>quantum mechanics</small></div>
+          <svg class="loop" viewBox="0 0 220 120"><path d="M10 40 Q110 -10 210 40" /><path d="M210 80 Q110 130 10 80"/><polygon points="204,30 214,42 200,44"/><polygon points="16,90 6,78 20,76"/></svg>
+          <div class="node q">Quantum computer<small>quantum principles</small></div>
+        </div>
+        <div class="note" data-in="c1+3">simulate quantum systems more naturally · <b>potentially</b> outperform classical computers on <b>certain</b> problems</div>
+      </div>
+      <div class="col">
+        <div class="myth" data-in="c2">Quantum computers are <b>not faster for everything</b></div>
+        <div class="tasks" data-in="c3">
+          <div class="task"><i data-icon="mail"></i>Email<em>classical ✓</em></div>
+          <div class="task"><i data-icon="play"></i>Video<em>classical ✓</em></div>
+          <div class="task"><i data-icon="calc"></i>Everyday maths<em>classical ✓</em></div>
+        </div>
+        <div class="adv" data-in="c4">
+          <div class="advt">Potential advantages for <b>particular problems</b></div>
+          <div class="advrow"><span>whose structure lets quantum effects be used effectively</span></div>
+        </div>
+        <div class="nextq" data-in="c5"><span class="qglow sm"></span>First: understand the <b>qubit</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · bit to qubit ---------------------------------------------------------------------- -->
+  <section class="scene" id="s-bit">
+    <div class="seccard" data-out="c1-0.2"><span>2</span>From Classical Bits to Qubits</div>
+    <div class="cols">
+      <div class="col center">
+        <svg id="switch" class="switch" viewBox="0 0 520 300" data-in="c1"></svg>
+        <div class="switchlab" data-in="c2"><span class="off">off = 0</span><span class="on">on = 1</span></div>
+        <div class="tag" data-in="c1+0.6">A classical bit is a switch</div>
+      </div>
+      <div class="col center">
+        <div class="qubitword" data-in="c3"><span class="qglow"></span>Qubit <small>quantum bit · a two-level quantum system</small></div>
+        <div class="basis2" data-in="c3+2.5">
+          <div class="ket"><span class="tex" data-tex="|0\rangle"></span><small>ket zero</small></div>
+          <div class="ket"><span class="tex" data-tex="|1\rangle"></span><small>ket one</small></div>
+        </div>
+        <div class="badge" data-in="c4">+ superpositions of both</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · general state ------------------------------------------------------------------- -->
+  <section class="scene" id="s-state">
+    <div class="statehead" data-in="0.2">A general qubit state</div>
+    <div class="bigeq" data-in="c1"><span class="tex" data-d data-tex="|\psi\rangle \;=\; \color{#22d3ee}{\alpha}\,|0\rangle \;+\; \color{#a78bfa}{\beta}\,|1\rangle"></span></div>
+    <div class="amplabels" data-in="c4">
+      <span class="a">α, β — probability amplitudes</span>
+      <span class="b">complex numbers <span class="tex" data-tex="\alpha,\beta\in\mathbb{C}"></span></span>
+    </div>
+    <div class="cols low">
+      <div class="col center">
+        <svg id="cplane" class="cplane" viewBox="-170 -170 340 340" data-in="c4"></svg>
+        <div class="smallnote" data-in="c4+0.6">example: <span class="tex" data-tex="\alpha = 0.6,\;\; \beta = 0.8\,i"></span></div>
+      </div>
+      <div class="col center">
+        <div class="tag" data-in="c5">Normalization condition</div>
+        <div class="normeq" data-in="c6"><span class="tex" data-d data-tex="|\alpha|^2 + |\beta|^2 = 1"></span></div>
+        <div class="normcheck" data-in="c6+1.0"><span class="tex" data-tex="0.6^2 + |0.8i|^2 = 0.36 + 0.64 = 1\;\checkmark"></span></div>
+        <div class="badge" data-in="c7">all outcome probabilities add up to one</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · hardware ---------------------------------------------------------------------- -->
+  <section class="scene" id="s-hardware">
+    <div class="tag center" data-in="0.2">Qubits can be built with different technologies</div>
+    <div class="techs">
+      <div class="tech" data-in="0.8"><svg id="tech0" viewBox="-80 -80 160 160"></svg><b>Superconducting circuits</b></div>
+      <div class="tech" data-in="1.6"><svg id="tech1" viewBox="-80 -80 160 160"></svg><b>Trapped ions</b></div>
+      <div class="tech" data-in="2.4"><svg id="tech2" viewBox="-80 -80 160 160"></svg><b>Neutral atoms</b></div>
+      <div class="tech" data-in="3.2"><svg id="tech3" viewBox="-80 -80 160 160"></svg><b>Photons</b></div>
+    </div>
+    <div class="samemath" data-in="c1">Different hardware — <b>the same mathematics</b>: <span class="tex" data-tex="|\psi\rangle=\alpha|0\rangle+\beta|1\rangle,\;\; |\alpha|^2+|\beta|^2=1"></span></div>
+  </section>
+
+  <!-- 8 · Dirac notation --------------------------------------------------------------- -->
+  <section class="scene" id="s-dirac">
+    <div class="seccard" data-out="c1-0.2"><span>3</span>Dirac Notation</div>
+    <div class="cols">
+      <div class="col center">
+        <div class="tag" data-in="c1">Dirac notation <small>after physicist Paul Dirac</small></div>
+        <div class="basis2" data-in="c2">
+          <div class="ket"><span class="tex" data-tex="|0\rangle"></span><small>computational basis</small></div>
+          <div class="ket"><span class="tex" data-tex="|1\rangle"></span><small>computational basis</small></div>
+        </div>
+        <div class="vecs" data-in="c3">
+          <div class="vec"><span class="tex" data-d data-tex="|0\rangle = \begin{pmatrix}1\\0\end{pmatrix}"></span></div>
+          <div class="vec"><span class="tex" data-d data-tex="|1\rangle = \begin{pmatrix}0\\1\end{pmatrix}"></span></div>
+        </div>
+      </div>
+      <div class="col center">
+        <svg id="vplane" class="vplane" viewBox="-60 -300 360 360" data-in="c3"></svg>
+        <div class="vecsum" data-in="c4"><span class="tex" data-d data-tex="|\psi\rangle = \begin{pmatrix}\alpha\\\beta\end{pmatrix}\in\mathbb{C}^2"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · bras and inner products --------------------------------------------------------- -->
+  <section class="scene" id="s-bra">
+    <div class="cols">
+      <div class="col center">
+        <div class="tag" data-in="0.2">Bras and inner products</div>
+        <div class="brapair" data-in="c1">
+          <div><span class="tex" data-d data-tex="\text{ket}\;\; |\psi\rangle = \begin{pmatrix}\alpha\\\beta\end{pmatrix}"></span></div>
+          <div><span class="tex" data-d data-tex="\text{bra}\;\; \langle\psi| = \begin{pmatrix}\alpha^* & \beta^*\end{pmatrix}"></span></div>
+        </div>
+        <div class="smallnote" data-in="c1+2">The inner product <span class="tex" data-tex="\langle\phi|\psi\rangle"></span> relates two quantum states</div>
+      </div>
+      <div class="col center">
+        <div class="bigeq2" data-in="c2"><span class="tex" data-d data-tex="\langle 0|1\rangle = \begin{pmatrix}1 & 0\end{pmatrix}\begin{pmatrix}0\\1\end{pmatrix} = 0"></span></div>
+        <svg id="ortho" class="ortho" viewBox="-40 -260 320 300" data-in="c3"></svg>
+        <div class="badge" data-in="c3+0.4">orthogonal states</div>
+        <div class="smallnote" data-in="c4">a precise language for quantum information</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · superposition --------------------------------------------------------------------- -->
+  <section class="scene" id="s-superpos">
+    <div class="seccard" data-out="c1-0.2"><span>4</span>Quantum Superposition</div>
+    <div class="cols">
+      <div class="col center">
+        <svg id="ampbars" class="ampbars" viewBox="0 0 560 360" data-in="c1"></svg>
+        <div class="cond" data-in="c1+0.8"><span class="tex" data-tex="\alpha \neq 0 \;\text{ and }\; \beta \neq 0 \;\Rightarrow\; \text{superposition}"></span></div>
+        <div class="quote" data-in="c2" data-out="c4-0.2">“both 0 and 1 at the same time”<small data-in="c3">a useful introduction — <b>not a complete explanation</b></small></div>
+      </div>
+      <div class="col center">
+        <svg id="coin" class="coin" viewBox="-160 -160 320 320" data-in="c4"></svg>
+        <div class="smallnote" data-in="c5">heads or tails? — <b>ordinary uncertainty</b> about a classical object</div>
+        <div class="tag violet" data-in="c7">Quantum superposition is different</div>
+        <div class="smallnote" data-in="c8">amplitudes can be <b>negative</b> or <b>complex</b>: <span class="tex" data-tex="+\frac{1}{\sqrt2},\;\; -\frac{1}{\sqrt2},\;\; \frac{i}{\sqrt2}"></span></div>
+        <div class="badge" data-in="c9">amplitudes can interfere</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · plus and minus states -------------------------------------------------------------- -->
+  <section class="scene" id="s-plusminus">
+    <div class="cols">
+      <div class="col center">
+        <div class="pmpair">
+          <div data-in="c1"><span class="tex" data-d data-tex="|+\rangle = \frac{|0\rangle \color{#22d3ee}{\,+\,} |1\rangle}{\sqrt2}"></span></div>
+          <div data-in="c2"><span class="tex" data-d data-tex="|-\rangle = \frac{|0\rangle \color{#f472b6}{\,-\,} |1\rangle}{\sqrt2}"></span></div>
+        </div>
+        <svg id="pmbars" class="pmbars" viewBox="0 0 640 300" data-in="c3"></svg>
+      </div>
+      <div class="col center">
+        <div class="tag" data-in="c3">Same measurement statistics: 50% · 50%</div>
+        <div class="tag violet" data-in="c4">…but different states: <b>relative phase</b></div>
+        <svg id="waves" class="waves" viewBox="0 0 640 300" data-in="c5"></svg>
+        <div class="misbanner2" data-in="c6">Superposition does <b>not</b> mean reading every answer at once</div>
+        <div class="smallnote" data-in="c7">Algorithms shape amplitudes so useful outcomes become <b>more likely</b> — through interference</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · measurement, Born rule -------------------------------------------------------------- -->
+  <section class="scene" id="s-born">
+    <div class="seccard" data-out="c1-0.2"><span>5</span>Measurement and the Born Rule</div>
+    <div class="measflow" data-in="c1" data-out="c4-0.3">
+      <div class="mq">qubit <span class="tex" data-tex="\alpha|0\rangle+\beta|1\rangle"></span></div><i>→</i>
+      <div class="meter"><i data-icon="meter"></i>measure</div><i>→</i>
+      <div class="mout">result: <b>0</b> or <b>1</b></div>
+    </div>
+    <div class="cols">
+      <div class="col center">
+        <div class="tag violet" data-in="c4">The Born rule</div>
+        <div class="borneq" data-in="c7"><span class="tex" data-d data-tex="P(0) = |\alpha|^2"></span></div>
+        <div class="borneq" data-in="c8"><span class="tex" data-d data-tex="P(1) = |\beta|^2"></span></div>
+      </div>
+      <div class="col center">
+        <div class="smallnote big" data-in="c4">probability of <b>0</b> = squared magnitude of <b>α</b></div>
+        <div class="smallnote big" data-in="c5">probability of <b>1</b> = squared magnitude of <b>β</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · worked example ------------------------------------------------------------------- -->
+  <section class="scene" id="s-example">
+    <div class="cols">
+      <div class="col">
+        <div class="bigeq3" data-in="0.3"><span class="tex" data-d data-tex="|\psi\rangle = \frac{\sqrt3}{2}\,|0\rangle + \frac{i}{2}\,|1\rangle"></span></div>
+        <div class="calc" data-in="c1"><span class="tex" data-d data-tex="P(0) = \left|\frac{\sqrt3}{2}\right|^2 = \frac34 = 75\%"></span></div>
+        <div class="calc" data-in="c2"><span class="tex" data-d data-tex="P(1) = \left|\frac{i}{2}\right|^2 = \frac14 = 25\%"></span></div>
+      </div>
+      <div class="col center">
+        <svg id="bornbars" class="bornbars" viewBox="0 0 520 380" data-in="c1"></svg>
+        <div class="sumeq" data-in="c3"><span class="tex" data-tex="\tfrac34 + \tfrac14 = 1"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · measurement changes the state -------------------------------------------------------- -->
+  <section class="scene" id="s-collapse">
+    <div class="cols">
+      <div class="col center">
+        <div class="tag" data-in="0.2">Measurement changes the state</div>
+        <div class="collapse">
+          <div class="cbox" data-in="c1"><small>before</small><span class="tex" data-tex="\tfrac{\sqrt3}{2}|0\rangle + \tfrac{i}{2}|1\rangle"></span></div>
+          <div class="carrow" data-in="c1+0.6"><i data-icon="meter"></i><b>result: 0</b></div>
+          <div class="cbox after" data-in="c1+1.2"><small>after</small><span class="tex" data-tex="|0\rangle"></span></div>
+        </div>
+        <div class="repeat" data-in="c2">
+          <span>measure again</span><b>0</b><b>0</b><b>0</b><small>same basis → same result</small>
+        </div>
+        <div class="badge" data-in="c3">“collapse” of the quantum state</div>
+      </div>
+      <div class="col center">
+        <svg id="shots" class="shots" viewBox="0 0 560 420" data-in="c1"></svg>
+        <div class="smallnote" data-in="c1+0.6">each run of a fresh copy gives one result · simulated shots, expected 75% : 25%</div>
+        <div class="note2" data-in="c4">Measurement is part of the computation — not a passive look</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 · Bloch sphere ---------------------------------------------------------------------- -->
+  <section class="scene" id="s-bloch">
+    <div class="seccard" data-out="c1-0.2"><span>6</span>The Bloch Sphere</div>
+    <div class="blochwrap" data-in="c2">
+      <svg id="bloch" class="bloch" viewBox="-330 -330 660 660"></svg>
+      <div class="blabel" id="bl0">|0⟩</div><div class="blabel" id="bl1">|1⟩</div>
+      <div class="blabel" id="blp">|+⟩</div><div class="blabel" id="blm">|−⟩</div>
+    </div>
+    <div class="blochside">
+      <div class="tag" data-in="c1">How can we visualize one qubit?</div>
+      <div class="bitem eq" data-in="c3"><span class="tex" data-d data-tex="|\psi\rangle = \cos\tfrac{\theta}{2}\,|0\rangle + e^{i\varphi}\sin\tfrac{\theta}{2}\,|1\rangle"></span><small>a pure state = a point on the sphere, set by two angles θ and φ</small></div>
+      <div class="bitem" data-in="c4"><b>North pole</b> <span class="tex" data-tex="|0\rangle"></span> <span data-in="c5">&nbsp;·&nbsp; <b>South pole</b> <span class="tex" data-tex="|1\rangle"></span></span></div>
+      <div class="bitem" data-in="c6"><b>Other points</b> — different superpositions</div>
+      <div class="bitem" data-in="c8"><b>Single-qubit gates = rotations</b><small>X: 180° about x · H: 180° about (x+z)/√2</small></div>
+    </div>
+  </section>
+
+  <!-- 16 · gates ---------------------------------------------------------------------------------- -->
+  <section class="scene" id="s-gates">
+    <div class="seccard" data-out="c1-0.2"><span>7</span>Quantum Gates and Entanglement</div>
+    <div class="analog" data-in="c1">Quantum gates transform quantum states</div>
+    <div class="gates">
+      <div class="gate" data-in="c2">
+        <div class="gbox x">X</div>
+        <div class="gm"><span class="tex" data-tex="X=\begin{pmatrix}0&1\\1&0\end{pmatrix}"></span></div>
+        <div class="gact"><span class="tex" data-tex="X|0\rangle=|1\rangle"></span><span class="tex" data-tex="X|1\rangle=|0\rangle"></span></div>
+        <div class="gname">like a classical bit flip</div>
+      </div>
+      <div class="gate" data-in="c3">
+        <div class="gbox z">Z</div>
+        <div class="gm"><span class="tex" data-tex="Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}"></span></div>
+        <div class="gact"><span class="tex" data-tex="Z(\alpha|0\rangle+\beta|1\rangle)"></span><span class="tex" data-tex="=\alpha|0\rangle-\beta|1\rangle"></span></div>
+        <div class="gname">changes the relative phase</div>
+      </div>
+      <div class="gate" data-in="c4">
+        <div class="gbox h">H</div>
+        <div class="gm"><span class="tex" data-tex="H=\tfrac{1}{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}"></span></div>
+        <div class="gact" data-in="c5"><span class="tex" data-tex="H|0\rangle=\tfrac{|0\rangle+|1\rangle}{\sqrt2}=|+\rangle"></span></div>
+        <div class="gname">Hadamard: basis state → superposition</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 · entanglement -------------------------------------------------------------------------- -->
+  <section class="scene" id="s-entangle">
+    <div class="cols">
+      <div class="col center">
+        <div class="tag violet" data-in="0.2">Interacting qubits can become <b>entangled</b></div>
+        <svg id="pair" class="pair" viewBox="0 0 600 260" data-in="0.4"></svg>
+        <div class="tag" data-in="c1">The Bell state</div>
+        <div class="bigeq2" data-in="c2"><span class="tex" data-d data-tex="|\Phi^+\rangle = \frac{|00\rangle + |11\rangle}{\sqrt2}"></span></div>
+      </div>
+      <div class="col center">
+        <div class="pairtable" data-in="c3">
+          <div class="pth"><span>qubit 1</span><span>qubit 2</span><span></span></div>
+          <div id="pairrows"></div>
+          <div class="ptnote"><span>00 and 11, each 50% (ideal)</span><span>never 01 or 10</span></div>
+        </div>
+        <div class="nonsep" data-in="c4"><span class="tex" data-tex="|\Phi^+\rangle \neq |a\rangle\otimes|b\rangle"></span><small data-in="c5">cannot be split into two independent single-qubit states — the defining feature of entanglement</small></div>
+        <div class="nofl" data-in="c6"><b>Entanglement does not allow information to travel faster than light</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 · interference ------------------------------------------------------------------------- -->
+  <section class="scene" id="s-interf">
+    <div class="seccard" data-out="c1-0.2"><span>8</span>Quantum Interference</div>
+    <div class="ifront" data-out="c4-0.3">
+      <div class="tag center" data-in="c1">A central principle behind quantum algorithms</div>
+      <svg id="waves2" class="waves2 wide" viewBox="0 0 640 430" data-in="c2"></svg>
+    </div>
+    <div class="iback" data-in="c4">
+      <svg id="hhcirc" class="hhcirc" viewBox="0 0 900 120"></svg>
+      <svg id="paths" class="paths" viewBox="0 0 1500 560"></svg>
+    </div>
+    <div class="identity" data-in="c8"><span class="tex" data-tex="HH|0\rangle = |0\rangle"></span><small>operations change measurement probabilities</small><small data-in="c9">algorithms: raise useful outcomes · suppress unwanted ones</small></div>
+  </section>
+
+  <!-- 19 · Qiskit ------------------------------------------------------------------------------- -->
+  <section class="scene" id="s-qiskit">
+    <div class="seccard" data-out="c1-0.2"><span>9</span>Building a Quantum Circuit with Qiskit</div>
+    <div class="cols">
+      <div class="col">
+        <div class="tag" data-in="c2">Qiskit — a framework for building and studying quantum circuits</div>
+        <div class="code" data-in="c1+0.3" id="code"></div>
+      </div>
+      <div class="col center">
+        <svg id="bellcirc" class="bellcirc" viewBox="0 0 640 300" data-in="c3"></svg>
+        <div class="bigeq2" data-in="c6"><span class="tex" data-d data-tex="|00\rangle \xrightarrow{\;H\text{ on }q_0\;} \tfrac{|00\rangle+|10\rangle}{\sqrt2} \xrightarrow{\;\text{CNOT}\;} \tfrac{|00\rangle+|11\rangle}{\sqrt2}"></span></div>
+        <div class="smallnote" data-in="c6+0.6">in kets, the first digit is the first qubit (q0)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20 · results -------------------------------------------------------------------------------- -->
+  <section class="scene" id="s-results">
+    <div class="cols">
+      <div class="col center">
+        <div class="tag" data-in="0.2">Ideal simulation</div>
+        <svg id="idealbars" class="hist" viewBox="0 0 600 380" data-in="0.3"></svg>
+        <div class="smallnote" data-in="c1">|01⟩ and |10⟩ have zero probability</div>
+      </div>
+      <div class="col center">
+        <div class="tag violet" data-in="c2">Real quantum hardware</div>
+        <svg id="noisybars" class="hist" viewBox="0 0 600 380" data-in="c2+0.3"></svg>
+        <div class="smallnote" data-in="c2+0.8">illustrative example, not measured data · noise · imperfect gates · measurement errors · environment</div>
+        <div class="badge" data-in="c3">reducing noise: a key research area</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21 · conclusion ------------------------------------------------------------------------------ -->
+  <section class="scene" id="s-summary">
+    <div class="seccard" data-out="c1-0.2"><span></span>Conclusion</div>
+    <div class="recap">
+      <div class="rc" data-in="c2"><b>Qubit</b><span class="tex" data-tex="\text{unit of quantum information}"></span></div>
+      <div class="rc" data-in="c3"><b>Superposition</b><span class="tex" data-tex="\alpha|0\rangle+\beta|1\rangle,\;\alpha,\beta\in\mathbb{C}"></span></div>
+      <div class="rc" data-in="c4"><b>Born rule</b><span class="tex" data-tex="P(0)=|\alpha|^2"></span></div>
+      <div class="rc" data-in="c5"><b>Bloch sphere</b><span class="tex" data-tex="(\theta,\varphi)"></span></div>
+      <div class="rc" data-in="c6"><b>Gates · Entanglement</b><span class="tex" data-tex="X,Z,H\;\cdot\;\tfrac{|00\rangle+|11\rangle}{\sqrt2}"></span></div>
+      <div class="rc" data-in="c7"><b>Interference</b><span class="tex" data-tex="HH|0\rangle=|0\rangle"></span></div>
+    </div>
+    <div class="takeaway" data-in="c8">Quantum computers do <b>not</b> simply provide every answer at once</div>
+    <div class="takeaway pos" data-in="c9">Their potential: <b>carefully controlling quantum states and interference</b> for particular problems</div>
+  </section>
+
+  <!-- 22 · outro ------------------------------------------------------------------------------------ -->
+  <section class="scene" id="s-outro">
+    <div class="done" data-in="0.2"><span>✓</span>Chapter One complete: Qubits, Superposition, and Measurement</div>
+    <div class="creditcard small" data-in="c1"><img src="assets/sql-logo.png" alt="SQLL logo"><div><div class="by">Written by <b>Hussein Billah</b></div><div class="pub">Published by <b>Sonicium Quantum Lab Limited</b> <span>(SQLL)</span></div></div></div>
+    <div class="next" data-in="c2"><small>Next chapter</small><b>The quantum circuit model</b><b>Toward the Deutsch–Jozsa algorithm</b></div>
+    <div class="thanks" data-in="c3">Thank you for joining us</div>
+    <div class="seeyou" data-in="c4">Keep learning · keep questioning · keep exploring</div>
+  </section>
+
+  <div class="subs" id="subs"><span id="subtext"></span></div>
+  <div class="progress"><i id="bar"></i></div>
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="script.js"></script>
+<script src="timing.js"></script>
+<script src="animate.js"></script>
+</body>
+</html>
