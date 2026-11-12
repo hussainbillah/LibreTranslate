@@ -22,7 +22,7 @@ The English edition of Chapter 1, built on the supplied ElevenLabs voice-over (`
 
 ## Content notes
 
-- The credits for Hussein Billah and Sonicium Quantum Lab Limited (SQLL), with the SQL logo, appear where the narration names them.
+- The credits for Hussein Billah and Sonicium Quantum Lab Limited (SQLL), with the final SQLL logo, appear where the narration names them.
 - The real-hardware histogram is labelled as an illustrative example, not measured data.
 - The Qiskit code on screen is valid for Qiskit 1.x/2.x and prints `{'00': 0.5, '11': 0.5}`.
 

@@ -370,3 +370,6 @@ body.en .recap { margin-top: 30px; gap: 24px; }
 body.en .rc { font-size: 40px; padding: 30px 32px; gap: 16px; }
 body.en .rc b { font-size: 34px; }
 body.en .takeaway { margin-top: 34px; font-size: 38px; }
+/* final SQLL logo (wide, with tagline) */
+.creditcard img { width: 320px; background: #fff; padding: 10px 14px; }
+.creditcard.small img { width: 230px; }
